@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
     Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
 
@@ -25,32 +24,22 @@ package se.bthstudent.sis.afk.GLaDOS;
  * @author Bobby
  *
  */
-=======
-package se.bthstudent.sis.afk.GLaDOS;
-
->>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 public class MessageParse {
 	
 	private String parse;
 	
-<<<<<<< HEAD
 	/**
 	 * Default constructor
 	 */
-=======
->>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 	public MessageParse(){
 		this.parse = "";
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Checks if the message is a command to GLaDOS, i.e. the first character is '!'.
 	 * @param message Message to check
 	 * @return Returns true if the message is a command, false otherwise.
 	 */
-=======
->>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 	public boolean isCommand(String message){
 		if(message.substring(0, 1).equalsIgnoreCase("!"))
 			return true;
@@ -58,7 +47,6 @@ public class MessageParse {
 			return false;
 	}
 	
-<<<<<<< HEAD
 	/**
 	 * Splits a message into manageable chunks to be processed by GLaDOS.
 	 * @param parse The message to parse.
@@ -67,8 +55,6 @@ public class MessageParse {
 	 * (at index 0) will be the specific command, the rest will be arguments to the
 	 * command. 
 	 */
-=======
->>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 	public String[] parseString(String parse){
 		this.parse = parse;
 		String[] toReturn = new String[0];

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /*
     Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
 
@@ -35,17 +34,6 @@ public class GLaDOSMain {
 	 * Starts GLaDOS, connects to server and join channels.
 	 * @param args Runtime arguments
 	 */
-=======
-package se.bthstudent.sis.afk.GLaDOS;
-
-import java.io.IOException;
-
-import org.jibble.pircbot.IrcException;
-import org.jibble.pircbot.NickAlreadyInUseException;
-
-public class GLaDOSMain {
-
->>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 	public static void main(String[] args)
 	{
 		GLaDOS bot = new GLaDOS();
