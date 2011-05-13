@@ -32,8 +32,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 
 	private static final long serialVersionUID = 1482250975340593595L;
 	private String [] quotes;
-	private MessageParse messageParse;
-	private Helper helper;
+	private WernickeModule wernickMod;
+	private GenericUtilityProcessor gup;
 	
 	private int backupTimer;
 	private int prevTime;
@@ -45,8 +45,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 	{
 		this.setName("GLaDOS");
 		
-		this.messageParse = new MessageParse();
-		this.helper = new Helper();
+		this.wernickMod = new WernickeModule();
+		this.gup = new GenericUtilityProcessor();
 		
 		this.backupTimer = 10000;
 		this.prevTime = (int)System.currentTimeMillis();
@@ -104,8 +104,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 	
 	public void onMessage(String channel, String sender, String login, String hostname, String message )
 	{
-		if(this.messageParse.isCommand(message)){
-			String[] command = this.messageParse.parseString(message);
+		if(this.wernickMod.isCommand(message)){
+			String[] command = this.wernickMod.parseString(message);
 
 			if(command[0].equalsIgnoreCase("time"))
 			{
@@ -157,7 +157,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 
 			if(this.backupTimer < 0){
 				System.out.println("Running backup on GLaDOS");
-				this.helper.saveGLaDOStoFile(this);
+				this.gup.saveGLaDOStoFile(this);
 				System.out.println("Backup done");
 				this.backupTimer = 1800000;
 			}

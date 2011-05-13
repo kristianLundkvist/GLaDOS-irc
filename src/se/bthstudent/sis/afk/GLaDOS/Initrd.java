@@ -26,9 +26,10 @@ import org.jibble.pircbot.NickAlreadyInUseException;
 /**
  * Main class for GLaDOS
  * @author Bobby, Prosten
+ * @version 0.0.25
  *
  */
-public class GLaDOSMain {
+public class Initrd {
 
 	/**
 	 * Starts GLaDOS, connects to server and join channels.

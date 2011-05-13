@@ -50,14 +50,14 @@ import java.io.Serializable;
  * @author Bobby
  *
  */
-public class Helper implements Serializable{
+public class GenericUtilityProcessor implements Serializable{
 
 	private static final long serialVersionUID = 5606536754790417834L;
 
 	/**
 	 * Constructor
 	 */
-	public Helper(){}
+	public GenericUtilityProcessor(){}
 	
 	/**
 	 * Saves GLaDOS to a file for safety (to be ready when the shit/neurotoxin hits the fan.
