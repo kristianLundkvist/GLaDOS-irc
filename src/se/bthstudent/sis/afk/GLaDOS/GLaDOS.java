@@ -18,6 +18,7 @@
  */
 
 package se.bthstudent.sis.afk.GLaDOS;
+import java.io.Serializable;
 import java.util.Calendar;
 import org.jibble.pircbot.*;
 
@@ -27,19 +28,28 @@ import org.jibble.pircbot.*;
  * @author Bobby, Prosten
  *
  */
-public class GLaDOS extends PircBot {
+public class GLaDOS extends PircBot implements Serializable, Runnable{
 
+	private static final long serialVersionUID = 1482250975340593595L;
 	private String [] quotes;
-	MessageParse messageParse;
+	private MessageParse messageParse;
+	private Helper helper;
+	
+	private int backupTimer;
+	private int prevTime;
 	
 	/**
 	 * Default constructor for GLaDOS
 	 */
 	public GLaDOS()
 	{
-		this.setName("GLaDOStest");
+		this.setName("GLaDOS");
 		
-		messageParse = new MessageParse();
+		this.messageParse = new MessageParse();
+		this.helper = new Helper();
+		
+		this.backupTimer = 10000;
+		this.prevTime = (int)System.currentTimeMillis();
 		
 		// ugly hack until we've got a database
 		this.quotes = new String[] {
@@ -88,6 +98,8 @@ public class GLaDOS extends PircBot {
 			"I hope you brought something stronger than a portal gun this time. Otherwise, I'm afraid you're about to become the immediate past president of the Being Alive club. Ha ha.",
 			"Clave Johnson: Alright, I've been thinking, when life gives you lemons, don't make lemonade! | GLaDOS: Yeah. | Cave Johnson: Make life take the lemons back! | GLaDOS: Yeah! | Cave Johnson: Get Mad! | GLaDOS: Yeah! | Cave Johnson: I don't want your damn lemons, what am I supposed to do with these? | GLaDOS: Yeah. take the lemons! | Cave Johnson: Demand to see life's manager! Make life rue the day it thought it could give Cave Johnson lemons! Do you know who I am? I'm the man whose gonna burn your house down... with the lemons! | GLaDOS: Oh, I like this guy. | Cave Johnson: I'm gonna get my engineers to invent a combustible lemon that'll burn your house down. | GLaDOS: Burn it down! Burning people. He says what we're all thinking."
 		};
+		
+		this.start();
 	}
 	
 	public void onMessage(String channel, String sender, String login, String hostname, String message )
@@ -119,6 +131,43 @@ public class GLaDOS extends PircBot {
 				sendMessage(channel, this.quotes[random]);
 			}
 
+		}
+	}
+	
+	/**
+	 * Starts the thread that controls the backup timer.
+	 */
+	public void start(){
+		Thread t = new Thread(this);
+		t.start();
+	}
+
+	@Override
+	public void run() {
+		while(true){
+			/*
+			 * For some reason GLaDOS wont run the backup, dunno yet
+			 */
+
+			int timeElasped = (int)System.currentTimeMillis() - this.prevTime;
+
+			this.prevTime = (int)System.currentTimeMillis();
+
+			this.backupTimer -= timeElasped;
+
+			if(this.backupTimer < 0){
+				System.out.println("Running backup on GLaDOS");
+				this.helper.saveGLaDOStoFile(this);
+				System.out.println("Backup done");
+				this.backupTimer = 1800000;
+			}
+
+			try{
+				Thread.sleep(1000);
+			}
+			catch(InterruptedException e){
+				System.out.println("Error: Thread in GLaDOS interrupted.");
+			}
 		}
 	}
 	
