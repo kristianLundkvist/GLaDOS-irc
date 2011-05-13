@@ -57,13 +57,14 @@ public class Helper {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
+			
+			in.close();
 		}
 		catch(FileNotFoundException e){
 			System.out.println("Error: could not load GLaDOS from GLaDOS.backup, file not found");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 		
 		return temp;
 	}
