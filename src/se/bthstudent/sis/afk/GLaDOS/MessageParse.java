@@ -19,13 +19,16 @@
 
 package se.bthstudent.sis.afk.GLaDOS;
 
+import java.io.Serializable;
+
 /**
  * Message parsing part of GLaDOS. Splits commands from users and other useful functions.
  * @author Bobby
  *
  */
-public class MessageParse {
+public class MessageParse implements Serializable{
 	
+	private static final long serialVersionUID = -5289384551294934213L;
 	private String parse;
 	
 	/**

@@ -25,9 +25,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class Helper {
-	
+public class Helper implements Serializable{
+
+	private static final long serialVersionUID = 5606536754790417834L;
+
 	public Helper(){}
 	
 	public void saveGLaDOStoFile(Object temp){

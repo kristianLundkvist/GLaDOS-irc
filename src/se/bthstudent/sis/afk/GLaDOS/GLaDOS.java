@@ -48,7 +48,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 		this.messageParse = new MessageParse();
 		this.helper = new Helper();
 		
-		this.backupTimer = 1800000;
+		this.backupTimer = 10000;
 		this.prevTime = (int)System.currentTimeMillis();
 		
 		// ugly hack until we've got a database
@@ -144,29 +144,30 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 
 	@Override
 	public void run() {
-		
-		/*
-		 * For some reason GLaDOS wont run the backup, dunno yet
-		 */
-		
-		int timeElasped = (int)System.currentTimeMillis() - this.prevTime;
-		
-		this.prevTime = (int)System.currentTimeMillis();
-		
-		this.backupTimer -= timeElasped;
-		
-		if(this.backupTimer < 0){
-			System.out.println("Running backup on GLaDOS");
-			this.helper.saveGLaDOStoFile(this);
-			System.out.println("Backup done");
-			this.backupTimer = 1800000;
-		}
-		
-		try{
-			Thread.sleep(1000);
-		}
-		catch(InterruptedException e){
-			System.out.println("Error: Thread in GLaDOS interrupted.");
+		while(true){
+			/*
+			 * For some reason GLaDOS wont run the backup, dunno yet
+			 */
+
+			int timeElasped = (int)System.currentTimeMillis() - this.prevTime;
+
+			this.prevTime = (int)System.currentTimeMillis();
+
+			this.backupTimer -= timeElasped;
+
+			if(this.backupTimer < 0){
+				System.out.println("Running backup on GLaDOS");
+				this.helper.saveGLaDOStoFile(this);
+				System.out.println("Backup done");
+				this.backupTimer = 1800000;
+			}
+
+			try{
+				Thread.sleep(1000);
+			}
+			catch(InterruptedException e){
+				System.out.println("Error: Thread in GLaDOS interrupted.");
+			}
 		}
 	}
 	
