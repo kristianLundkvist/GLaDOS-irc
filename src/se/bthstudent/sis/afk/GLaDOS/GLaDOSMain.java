@@ -1,12 +1,20 @@
 package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.IOException;
-
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 
+/**
+ * Main class for GLaDOS
+ * @author Sabbath, Prosten
+ *
+ */
 public class GLaDOSMain {
 
+	/**
+	 * Starts GLaDOS, connects to server and join channels.
+	 * @param args Runtime arguments
+	 */
 	public static void main(String[] args)
 	{
 		GLaDOS bot = new GLaDOS();

@@ -2,11 +2,20 @@ package se.bthstudent.sis.afk.GLaDOS;
 import java.util.Calendar;
 import org.jibble.pircbot.*;
 
+/**
+ * GLaDOS, Genetic Lifeform and Disk Operation System, is an artificially intelligent computer system
+ * used for monitoring IRC channels, performing tests on users and recording said users performance and information.
+ * @author Sabbath, Prosten
+ *
+ */
 public class GLaDOS extends PircBot {
 
 	private String [] quotes;
 	MessageParse messageParse;
 	
+	/**
+	 * Default constructor for GLaDOS
+	 */
 	public GLaDOS()
 	{
 		this.setName("GLaDOStest");
@@ -77,7 +86,7 @@ public class GLaDOS extends PircBot {
 				hours = now.get(Calendar.HOUR_OF_DAY);
 				minutes = now.get(Calendar.MINUTE);
 				String time = "";
-				time = (Integer.toString(hours) + ":" + Integer.toString(minutes));
+				time = hours + ":" + minutes;
 
 
 				sendMessage(channel, sender + ": The time is now: " + time);
@@ -86,7 +95,7 @@ public class GLaDOS extends PircBot {
 
 			if(command[0].equalsIgnoreCase("GLaDOS")) 
 			{
-				int random = (int) (Math.random()*(double)this.quotes.length);
+				int random = (int) (Math.random()*this.quotes.length);
 
 				sendMessage(channel, this.quotes[random]);
 			}
