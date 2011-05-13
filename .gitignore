@@ -4,3 +4,6 @@ lib/*
 *.obj
 *.classpath
 *.project
+/doc
+doc/*
+*.settings/
