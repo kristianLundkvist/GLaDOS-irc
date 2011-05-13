@@ -1,15 +1,26 @@
 import java.util.Calendar;
 import org.jibble.pircbot.*;
+import org.jibble.jmegahal.*;
 
 public class GLaDOS extends PircBot {
 
 	private String [] quotes;
+	private JMegaHal hal;
 	
 	public GLaDOS()
 	{
+		// Gives the bot the name GLaDOS
 		this.setName("GLaDOS");
+		this.hal = new JMegaHal();
+		hal.add("Hur är vädret idag?");
+		hal.add("Va ful du är idag!");
+		hal.add("Norrland luktar fisk!");
+		hal.add("Otyg luktar dock värre!");
+		hal.add("My name is GLaDOS, I've got cake.");
+		hal.add("Mitt namn är GLaDOS, jag har tårta.");
+		hal.add("Va ful du är idag GLaDOS");
 		
-		// ugly hack until we've got a database
+		// Ugly hack until we've get an database up and running
 		this.quotes = new String[] {
 			"Cake, and grief counseling, will be available at the end of the testing period.",
 			"Please note that we have added a consequence for failure. Any contact with the chamber floor will result in an unsatisfactory mark on your official testing record, followed by death. ",
@@ -66,26 +77,43 @@ public class GLaDOS extends PircBot {
 			int hours;
 			int minutes;
 			
+			// Creates a Calendar to "pull" the current time from
 			Calendar now = Calendar.getInstance();
 			
+			// Gets the time in Hours and minutes
 			hours = now.get(Calendar.HOUR_OF_DAY);
 			minutes = now.get(Calendar.MINUTE);
 			String time = "";
+			
+			// Puts the Integers into one formatted string
 			time = (Integer.toString(hours) + ":" + Integer.toString(minutes));
 			
-			
+			// Sends the current time into the channel, along with a sneaky message
 			sendMessage(channel, sender + ": The time is now: " + time);
 			sendMessage(channel, sender + ": Sometime tomorrow, there will be cake.");
 		}
 		
 		if(message.equalsIgnoreCase("!GLaDOS")) 
 		{
+			// Generates a random number based on the quote-array's length
 			int random = (int) (Math.random()*(double)this.quotes.length);
 			
+			// Sends the quote to the channel
 			sendMessage(channel, this.quotes[random]);
+		}
+		
+		if(message.toLowerCase().indexOf(getNick().toLowerCase()) >= 0)
+		{
+			// If GLaDOS nickname was mentioned, generate a random reply
+			String sentence = this.hal.getSentence();
+			sendMessage(channel, sentence);
+		}
+		else
+		{
+			// Otherwise, GLaDOS will learn the message
+			hal.add(message);
 		}
 		
 	}
 	
-
 }
