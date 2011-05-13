@@ -18,6 +18,7 @@
  */
 
 package se.bthstudent.sis.afk.GLaDOS;
+import java.io.Serializable;
 import java.util.Calendar;
 import org.jibble.pircbot.*;
 
@@ -27,8 +28,9 @@ import org.jibble.pircbot.*;
  * @author Bobby, Prosten
  *
  */
-public class GLaDOS extends PircBot {
+public class GLaDOS extends PircBot implements Serializable{
 
+	private static final long serialVersionUID = 1482250975340593595L;
 	private String [] quotes;
 	MessageParse messageParse;
 	
