@@ -1,3 +1,15 @@
-This was a triumph
-I'm making a note here: HUGE SUCCESS
-It's hard to overstate my satisfaction
+GLaDOS - Genetic Lifeform and Disk Operation System
+
+Authors: Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner (aka, the guys to blame when the neurotoxin is released)
+
+Version: 0.0.25
+
+License: GNU GPL
+
+Description: GLaDOS control IRC channels and performs test on the users.
+
+Thanks to: Paul Mutton for an excellent framework for IRC bots in java (http://www.jibble.org/).
+Also, thanks to the guys at UKP Lab or to be precise: Torsten Zensch, Richard Eckart de Castilho,
+Elisabeth Wolf and Oliver Ferschke for their work on JWPL (http://code.google.com/p/jwpl/) (now 
+we just have to get around to implement it :D).
+Let us never forget the guys at Valve who created the wonderful timesink called Portal and Portal 2.
