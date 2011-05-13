@@ -23,10 +23,11 @@ import java.io.Serializable;
 
 /**
  * Message parsing part of GLaDOS. Splits commands from users and other useful functions.
+ * An explanation of sorts for the name can be found at http://en.wikipedia.org/wiki/Wernicke%27s_area
  * @author Bobby
  *
  */
-public class MessageParse implements Serializable{
+public class WernickeModule implements Serializable{
 	
 	private static final long serialVersionUID = -5289384551294934213L;
 	private String parse;
@@ -34,7 +35,7 @@ public class MessageParse implements Serializable{
 	/**
 	 * Default constructor
 	 */
-	public MessageParse(){
+	public WernickeModule(){
 		this.parse = "";
 	}
 	
