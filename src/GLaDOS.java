@@ -1,25 +1,35 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Calendar;
 import org.jibble.pircbot.*;
 import org.jibble.jmegahal.*;
+
 
 public class GLaDOS extends PircBot {
 
 	private String [] quotes;
 	private JMegaHal hal;
+	private boolean talkBack = false;
 	
 	public GLaDOS()
 	{
 		// Gives the bot the name GLaDOS
 		this.setName("GLaDOS");
-		this.hal = new JMegaHal();
-		hal.add("Hur är vädret idag?");
-		hal.add("Va ful du är idag!");
-		hal.add("Norrland luktar fisk!");
-		hal.add("Otyg luktar dock värre!");
-		hal.add("My name is GLaDOS, I've got cake.");
-		hal.add("Mitt namn är GLaDOS, jag har tårta.");
-		hal.add("Va ful du är idag GLaDOS");
 		
+		// Creates a new MegaHal
+		hal = new JMegaHal();
+		
+		//adds some phraces to GLaDOS
+		hal.add("Hur �r v�dret idag?");
+		hal.add("ja, jag lyder m�stare!");
+		
+		// Loads an old brain into GLaDOS
+		hal = Load();
+		
+			
 		// Ugly hack until we've get an database up and running
 		this.quotes = new String[] {
 			"Cake, and grief counseling, will be available at the end of the testing period.",
@@ -69,51 +79,138 @@ public class GLaDOS extends PircBot {
 		};
 	}
 	
-	public void onMessage(String channel, String sender, String login, String hostname, String message )
+	public void onMessage(String channel, String sender, String login, String hostname, String message)
 	{
+		String lmessage = message.toLowerCase();
 		
-		if(message.equalsIgnoreCase("!time"))
+		if(lmessage.startsWith("!"))
 		{
-			int hours;
-			int minutes;
+			if(message.equalsIgnoreCase("!time"))
+			{
+				int hours;
+				int minutes;
 			
-			// Creates a Calendar to "pull" the current time from
-			Calendar now = Calendar.getInstance();
+				// Creates a Calendar to "pull" the current time from
+				Calendar now = Calendar.getInstance();
 			
-			// Gets the time in Hours and minutes
-			hours = now.get(Calendar.HOUR_OF_DAY);
-			minutes = now.get(Calendar.MINUTE);
-			String time = "";
+				// Gets the time in Hours and minutes
+				hours = now.get(Calendar.HOUR_OF_DAY);
+				minutes = now.get(Calendar.MINUTE);
+				String time = "";
 			
-			// Puts the Integers into one formatted string
-			time = (Integer.toString(hours) + ":" + Integer.toString(minutes));
+				// Puts the Integers into one formatted string
+				time = (Integer.toString(hours) + ":" + Integer.toString(minutes));
+
+				// Sends the current time into the channel, along with a sneaky message
+				sendMessage(channel, " The time is: " + time);
 			
-			// Sends the current time into the channel, along with a sneaky message
-			sendMessage(channel, sender + ": The time is now: " + time);
-			sendMessage(channel, sender + ": Sometime tomorrow, there will be cake.");
+			}
+		
+			if(message.equalsIgnoreCase("!GLaDOS")) 
+			{
+				// Generates a random number based on the quote-array's length
+				int random = (int) (Math.random()*(double)this.quotes.length);
+
+				// Sends the quote to the channel
+				sendMessage(channel, this.quotes[random]);
+			}
+			
+			// For activation and Deactivation of the response function
+			if(message.equalsIgnoreCase("!talkback"))
+			{
+				setTalkBack(!isTalkBackEnabled());
+			}
+			
+			//saves GLaDOS's "brain"
+			if(message.equalsIgnoreCase("!save"))
+			{
+				Save(hal);
+			}
 		}
 		
-		if(message.equalsIgnoreCase("!GLaDOS")) 
-		{
-			// Generates a random number based on the quote-array's length
-			int random = (int) (Math.random()*(double)this.quotes.length);
-			
-			// Sends the quote to the channel
-			sendMessage(channel, this.quotes[random]);
-		}
-		
-		if(message.toLowerCase().indexOf(getNick().toLowerCase()) >= 0)
-		{
-			// If GLaDOS nickname was mentioned, generate a random reply
-			String sentence = this.hal.getSentence();
-			sendMessage(channel, sentence);
-		}
 		else
-		{
-			// Otherwise, GLaDOS will learn the message
-			hal.add(message);
+		{ 
+			// Checks if the message contains "GLaDOS"
+			if(message.toLowerCase().indexOf(this.getNick().toLowerCase()) >= 0) 
+			{
+				// Replies if it does and "TalkBack" is enabled
+				if(isTalkBackEnabled())
+				{
+					String reply = hal.getSentence();
+					sendMessage(channel, reply);
+				}
+				else
+				{
+					// If the message isn't to her, she saves the message and saves her "brain"
+					hal.add(message);
+					Save(hal);
+				}
+			}
+			// If the message isn't to GLaDOS
+			else
+			{
+				hal.add(message);
+				Save(hal);
+			}
 		}
+		
+		
 		
 	}
 	
+	
+	public void OnRemove()
+	{
+		Save(hal);
+		hal = null;
+	}
+	
+	// Save GLaDOS to file
+	public static void Save(JMegaHal obj)
+	{
+		FileOutputStream fos = null;
+		ObjectOutputStream out = null;
+		try{
+			fos = new FileOutputStream("GLaDOS.obj");
+			out = new ObjectOutputStream(fos);
+			out.writeObject(obj);
+			out.close();
+		}catch(IOException ex){
+			ex.printStackTrace();
+		}
+	}
+	
+	// Load GLaDOS from file
+	public static JMegaHal Load()
+	{
+        FileInputStream fis;
+        ObjectInputStream in;
+        JMegaHal obj = null;
+        //
+        try{
+            fis = new FileInputStream("GLaDOS.obj");
+            in = new ObjectInputStream(fis);
+            obj = (JMegaHal)in.readObject();
+            in.close();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        if(obj == null){
+            obj = new JMegaHal();
+        }
+        return obj;
+	}
+	
+	public boolean isTalkBackEnabled()
+	{
+		return talkBack;
+	}
+	
+	public void setTalkBack(boolean talkBack)
+	{
+		this.talkBack = talkBack;
+	}
+
 }

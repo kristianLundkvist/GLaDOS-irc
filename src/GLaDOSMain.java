@@ -1,5 +1,3 @@
-import org.jibble.pircbot.*;
-
 public class GLaDOSMain {
 
 	public static void main(String[] args) throws Exception
@@ -13,7 +11,9 @@ public class GLaDOSMain {
 		// Connect her to BSnet IRC-server
 		bot.connect("irc.bsnet.se");
 		
-		// Make her join the testchannel
-		bot.joinChannel("#GLaDOStest");
+		// Make her join the testchannel or #arbetarbröder
+		
+		//bot.joinChannel("#GLaDOStest");
+		bot.joinChannel("#arbetarbröder");
 	}
 }
