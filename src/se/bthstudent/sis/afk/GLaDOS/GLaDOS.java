@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /*
     Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
 
@@ -18,8 +19,17 @@
  */
 
 package se.bthstudent.sis.afk.GLaDOS;
+=======
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+>>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 import java.util.Calendar;
 import org.jibble.pircbot.*;
+import org.jibble.jmegahal.*;
+
 
 /**
  * GLaDOS, Genetic Lifeform and Disk Operation System, is an artificially intelligent computer system
@@ -30,18 +40,39 @@ import org.jibble.pircbot.*;
 public class GLaDOS extends PircBot {
 
 	private String [] quotes;
+<<<<<<< HEAD
 	MessageParse messageParse;
+=======
+	private JMegaHal hal;
+	private boolean talkBack = false;
+>>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 	
 	/**
 	 * Default constructor for GLaDOS
 	 */
 	public GLaDOS()
 	{
+<<<<<<< HEAD
 		this.setName("GLaDOStest");
 		
 		messageParse = new MessageParse();
+=======
+		// Gives the bot the name GLaDOS
+		this.setName("GLaDOS");
+>>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
 		
-		// ugly hack until we've got a database
+		// Creates a new MegaHal
+		hal = new JMegaHal();
+		
+		//adds some phraces to GLaDOS
+		hal.add("Hur är vädret idag?");
+		hal.add("ja, jag lyder mästare!");
+		
+		// Loads an old brain into GLaDOS
+		hal = Load();
+		
+			
+		// Ugly hack until we've get an database up and running
 		this.quotes = new String[] {
 			"Cake, and grief counseling, will be available at the end of the testing period.",
 			"Please note that we have added a consequence for failure. Any contact with the chamber floor will result in an unsatisfactory mark on your official testing record, followed by death. ",
@@ -90,8 +121,9 @@ public class GLaDOS extends PircBot {
 		};
 	}
 	
-	public void onMessage(String channel, String sender, String login, String hostname, String message )
+	public void onMessage(String channel, String sender, String login, String hostname, String message)
 	{
+<<<<<<< HEAD
 		if(this.messageParse.isCommand(message)){
 			String[] command = this.messageParse.parseString(message);
 
@@ -120,7 +152,138 @@ public class GLaDOS extends PircBot {
 			}
 
 		}
+=======
+		String lmessage = message.toLowerCase();
+		
+		if(lmessage.startsWith("!"))
+		{
+			if(message.equalsIgnoreCase("!time"))
+			{
+				int hours;
+				int minutes;
+			
+				// Creates a Calendar to "pull" the current time from
+				Calendar now = Calendar.getInstance();
+			
+				// Gets the time in Hours and minutes
+				hours = now.get(Calendar.HOUR_OF_DAY);
+				minutes = now.get(Calendar.MINUTE);
+				String time = "";
+			
+				// Puts the Integers into one formatted string
+				time = (Integer.toString(hours) + ":" + Integer.toString(minutes));
+
+				// Sends the current time into the channel, along with a sneaky message
+				sendMessage(channel, " The time is: " + time);
+			
+			}
+		
+			if(message.equalsIgnoreCase("!GLaDOS")) 
+			{
+				// Generates a random number based on the quote-array's length
+				int random = (int) (Math.random()*(double)this.quotes.length);
+
+				// Sends the quote to the channel
+				sendMessage(channel, this.quotes[random]);
+			}
+			
+			// For activation and Deactivation of the response function
+			if(message.equalsIgnoreCase("!talkback"))
+			{
+				setTalkBack(!isTalkBackEnabled());
+			}
+			
+			//saves GLaDOS's "brain"
+			if(message.equalsIgnoreCase("!save"))
+			{
+				Save(hal);
+			}
+		}
+		
+		else
+		{ 
+			// Checks if the message contains "GLaDOS"
+			if(message.toLowerCase().indexOf(this.getNick().toLowerCase()) >= 0) 
+			{
+				// Replies if it does and "TalkBack" is enabled
+				if(isTalkBackEnabled())
+				{
+					String reply = hal.getSentence();
+					sendMessage(channel, reply);
+				}
+				else
+				{
+					// If the message isn't to her, she saves the message and saves her "brain"
+					hal.add(message);
+					Save(hal);
+				}
+			}
+			// If the message isn't to GLaDOS
+			else
+			{
+				hal.add(message);
+				Save(hal);
+			}
+		}
+		
+		
+		
 	}
 	
+	
+	public void OnRemove()
+	{
+		Save(hal);
+		hal = null;
+	}
+	
+	// Save GLaDOS to file
+	public static void Save(JMegaHal obj)
+	{
+		FileOutputStream fos = null;
+		ObjectOutputStream out = null;
+		try{
+			fos = new FileOutputStream("GLaDOS.obj");
+			out = new ObjectOutputStream(fos);
+			out.writeObject(obj);
+			out.close();
+		}catch(IOException ex){
+			ex.printStackTrace();
+		}
+>>>>>>> ea3c7e904807735f4dfa9261180870283ab592cb
+	}
+	
+	// Load GLaDOS from file
+	public static JMegaHal Load()
+	{
+        FileInputStream fis;
+        ObjectInputStream in;
+        JMegaHal obj = null;
+        //
+        try{
+            fis = new FileInputStream("GLaDOS.obj");
+            in = new ObjectInputStream(fis);
+            obj = (JMegaHal)in.readObject();
+            in.close();
+        }catch(IOException ex){
+            ex.printStackTrace();
+        }catch(ClassNotFoundException ex){
+            ex.printStackTrace();
+        }
+        if(obj == null){
+            obj = new JMegaHal();
+        }
+        return obj;
+	}
+	
+	public boolean isTalkBackEnabled()
+	{
+		return talkBack;
+	}
+	
+	public void setTalkBack(boolean talkBack)
+	{
+		this.talkBack = talkBack;
+	}
 
 }
