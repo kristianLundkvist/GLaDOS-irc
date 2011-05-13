@@ -1,13 +1,17 @@
+package se.bthstudent.sis.afk.GLaDOS;
 import java.util.Calendar;
 import org.jibble.pircbot.*;
 
 public class GLaDOS extends PircBot {
 
 	private String [] quotes;
+	MessageParse messageParse;
 	
 	public GLaDOS()
 	{
-		this.setName("GLaDOS");
+		this.setName("GLaDOStest");
+		
+		messageParse = new MessageParse();
 		
 		// ugly hack until we've got a database
 		this.quotes = new String[] {
@@ -60,31 +64,34 @@ public class GLaDOS extends PircBot {
 	
 	public void onMessage(String channel, String sender, String login, String hostname, String message )
 	{
-		
-		if(message.equalsIgnoreCase("!time"))
-		{
-			int hours;
-			int minutes;
-			
-			Calendar now = Calendar.getInstance();
-			
-			hours = now.get(Calendar.HOUR_OF_DAY);
-			minutes = now.get(Calendar.MINUTE);
-			String time = "";
-			time = (Integer.toString(hours) + ":" + Integer.toString(minutes));
-			
-			
-			sendMessage(channel, sender + ": The time is now: " + time);
-			sendMessage(channel, sender + ": Sometime tomorrow, there will be cake.");
+		if(this.messageParse.isCommand(message)){
+			String[] command = this.messageParse.parseString(message);
+
+			if(command[0].equalsIgnoreCase("time"))
+			{
+				int hours;
+				int minutes;
+
+				Calendar now = Calendar.getInstance();
+
+				hours = now.get(Calendar.HOUR_OF_DAY);
+				minutes = now.get(Calendar.MINUTE);
+				String time = "";
+				time = (Integer.toString(hours) + ":" + Integer.toString(minutes));
+
+
+				sendMessage(channel, sender + ": The time is now: " + time);
+				sendMessage(channel, sender + ": Sometime tomorrow, there will be cake.");
+			}
+
+			if(command[0].equalsIgnoreCase("GLaDOS")) 
+			{
+				int random = (int) (Math.random()*(double)this.quotes.length);
+
+				sendMessage(channel, this.quotes[random]);
+			}
+
 		}
-		
-		if(message.equalsIgnoreCase("!GLaDOS")) 
-		{
-			int random = (int) (Math.random()*(double)this.quotes.length);
-			
-			sendMessage(channel, this.quotes[random]);
-		}
-		
 	}
 	
 
