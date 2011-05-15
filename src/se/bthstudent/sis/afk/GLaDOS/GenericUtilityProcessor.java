@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Bjï¿½rner
 
 	This file is a part of GLaDOS
 
@@ -37,8 +37,7 @@ import java.io.Serializable;
 public class GenericUtilityProcessor implements Serializable {
 
 	/**
-	 * Field serialVersionUID.
-	 * (value is 5606536754790417834)
+	 * Field serialVersionUID. (value is 5606536754790417834)
 	 */
 	private static final long serialVersionUID = 5606536754790417834L;
 
@@ -73,8 +72,8 @@ public class GenericUtilityProcessor implements Serializable {
 	/**
 	 * Loads GLaDOS from backup.
 	 * 
-	
-	 * @return GLaDOS */
+	 * @return GLaDOS
+	 */
 	public Object loadGLaDOSfromFile() {
 		Object temp = new Object();
 
@@ -90,7 +89,7 @@ public class GenericUtilityProcessor implements Serializable {
 
 			in.close();
 		} catch (FileNotFoundException e) {
-			System.out
+			System.err
 					.println("Error: could not load GLaDOS from GLaDOS.backup, file not found");
 			e.printStackTrace();
 		} catch (IOException e) {

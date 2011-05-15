@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Bjï¿½rner
 
 	This file is a part of GLaDOS
 
@@ -47,7 +47,7 @@ public class Initrd {
 		try {
 			bot.connect("irc.bsnet.se");
 		} catch (NickAlreadyInUseException e) {
-			System.out.println("Error: Nick was already in use");
+			System.err.println("Error: Nick was already in use");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
