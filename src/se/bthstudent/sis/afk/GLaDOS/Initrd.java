@@ -27,7 +27,7 @@ import org.jibble.pircbot.NickAlreadyInUseException;
 /**
  * Main class for GLaDOS
  * @author Bobby, Prosten
- * @version 0.0.25
+ * @version 0.1.5
  *
  */
 public class Initrd {
