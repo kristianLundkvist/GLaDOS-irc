@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Bjï¿½rner
 
 	This file is a part of GLaDOS
 
@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.bthstudent.sis.afk.GLaDOS;
+package se.bthstudent.sis.afk;
 import java.io.Serializable;
 import java.util.Calendar;
 import org.jibble.pircbot.*;
