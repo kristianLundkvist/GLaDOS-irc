@@ -66,7 +66,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	private int prevTime;
 
 	private ArrayList<TestSubject> subjects;
-	
+
 	/**
 	 * Default constructor for GLaDOS
 	 */
@@ -127,8 +127,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 				"Most people emerge from suspension terribly undernourished. I want to congratulate you on beating the odds and somehow managing to pack on a few pounds. ",
 				"I hope you brought something stronger than a portal gun this time. Otherwise, I'm afraid you're about to become the immediate past president of the Being Alive club. Ha ha.",
 				"Clave Johnson: Alright, I've been thinking, when life gives you lemons, don't make lemonade! | GLaDOS: Yeah. | Cave Johnson: Make life take the lemons back! | GLaDOS: Yeah! | Cave Johnson: Get Mad! | GLaDOS: Yeah! | Cave Johnson: I don't want your damn lemons, what am I supposed to do with these? | GLaDOS: Yeah. take the lemons! | Cave Johnson: Demand to see life's manager! Make life rue the day it thought it could give Cave Johnson lemons! Do you know who I am? I'm the man whose gonna burn your house down... with the lemons! | GLaDOS: Oh, I like this guy. | Cave Johnson: I'm gonna get my engineers to invent a combustible lemon that'll burn your house down. | GLaDOS: Burn it down! Burning people. He says what we're all thinking." };
-		
-		
+
 		this.start();
 	}
 
