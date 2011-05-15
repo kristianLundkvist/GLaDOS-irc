@@ -16,6 +16,24 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+/*
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
+
+	This file is a part of GLaDOS
+
+    This GLaDOS is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 package se.bthstudent.sis.afk.GLaDOS;
 
@@ -29,74 +47,62 @@ import java.io.Serializable;
 
 /**
  * A general class for doing stuff that doesn't really fit in anywhere else.
- * 
  * @author Bobby
- * 
- * @version $Revision: 1.0 $
+ *
  */
-public class GenericUtilityProcessor implements Serializable {
+public class GenericUtilityProcessor implements Serializable{
 
-	/**
-	 * Field serialVersionUID.
-	 * (value is 5606536754790417834)
-	 */
 	private static final long serialVersionUID = 5606536754790417834L;
 
 	/**
 	 * Constructor
 	 */
-	public GenericUtilityProcessor() {
-	}
-
+	public GenericUtilityProcessor(){}
+	
 	/**
-	 * Saves GLaDOS to a file for safety (to be ready when the shit/neurotoxin
-	 * hits the fan.
-	 * 
-	 * @param temp
-	 *            GLaDOS
+	 * Saves GLaDOS to a file for safety (to be ready when the shit/neurotoxin hits the fan.
+	 * @param temp GLaDOS
 	 */
-	public void saveGLaDOStoFile(Object temp) {
+	public void saveGLaDOStoFile(Object temp){
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(
-					new FileOutputStream("GLaDOS.backup"));
-
+			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("GLaDOS.backup"));
+			
 			out.writeObject(temp);
-
+			
 			out.close();
-		} catch (FileNotFoundException e) {
+		} 
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-
+	
 	/**
 	 * Loads GLaDOS from backup.
-	 * 
-	
-	 * @return GLaDOS */
-	public Object loadGLaDOSfromFile() {
+	 * @return GLaDOS
+	 */
+	public Object loadGLaDOSfromFile(){
 		Object temp = new Object();
-
-		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-					"GLaDOS.backup"));
-
+		
+		try{
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream("GLaDOS.backup"));
+			
 			try {
-				temp = in.readObject();
+				temp = (GLaDOS)in.readObject();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
-
+			
 			in.close();
-		} catch (FileNotFoundException e) {
-			System.out
-					.println("Error: could not load GLaDOS from GLaDOS.backup, file not found");
-			e.printStackTrace();
+		}
+		catch(FileNotFoundException e){
+			System.out.println("Error: could not load GLaDOS from GLaDOS.backup, file not found");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
+		
 		return temp;
 	}
 
