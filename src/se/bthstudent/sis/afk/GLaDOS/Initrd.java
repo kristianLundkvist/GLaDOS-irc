@@ -20,6 +20,7 @@
 package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.IOException;
+
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 

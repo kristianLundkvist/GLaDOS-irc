@@ -21,7 +21,8 @@ package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import org.jibble.pircbot.*;
+
+import org.jibble.pircbot.PircBot;
 
 /**
  * GLaDOS, Genetic Lifeform and Disk Operation System, is an artificially
@@ -128,11 +129,17 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 	/**
 	 * Method onMessage.
-	 * @param channel String
-	 * @param sender String
-	 * @param login String
-	 * @param hostname String
-	 * @param message String
+	 * 
+	 * @param channel
+	 *            String
+	 * @param sender
+	 *            String
+	 * @param login
+	 *            String
+	 * @param hostname
+	 *            String
+	 * @param message
+	 *            String
 	 */
 	public void onMessage(String channel, String sender, String login,
 			String hostname, String message) {
@@ -174,8 +181,9 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 	/**
 	 * Method run.
-	
-	 * @see java.lang.Runnable#run() */
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		while (true) {
