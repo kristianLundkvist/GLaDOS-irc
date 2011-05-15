@@ -2,24 +2,67 @@ package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.Serializable;
 
+/**
+ * Class representing a test subject, storing the current nick and know aliases.
+ * Also stores the set mode for the subject.
+ */
 public class TestSubject implements Serializable {
 
+	/**
+	 * Field serialVersionUID. (value is -1285284334132918163)
+	 */
 	private static final long serialVersionUID = -1285284334132918163L;
+
+	/**
+	 * Current nick.
+	 */
 	private String nick;
+
+	/**
+	 * Known aliases
+	 */
 	private String[] alias;
 
+	/**
+	 * Possible modes a subject can have.
+	 */
 	public enum Mode {
-		OP, VOICE, NONE;
+		/**
+		 * Operator mode.
+		 */
+		OP, /**
+		 * Voice mode.
+		 */
+		VOICE, /**
+		 * No mode.
+		 */
+		NONE;
 	}
 
+	/**
+	 * Current/stored mode.
+	 */
 	private Mode mode;
 
+	/**
+	 * Constructor for TestSubject.
+	 */
 	public TestSubject() {
 		this.setNick("");
 		this.alias = new String[0];
 		this.setMode(Mode.NONE);
 	}
 
+	/**
+	 * Constructor for TestSubject.
+	 * 
+	 * @param nick
+	 *            Current nick.
+	 * @param alias
+	 *            Known aliases.
+	 * @param mode
+	 *            Current mode.
+	 */
 	public TestSubject(String nick, String[] alias, Mode mode) {
 		this.setNick(nick);
 		this.alias = alias;
@@ -35,6 +78,7 @@ public class TestSubject implements Serializable {
 	}
 
 	/**
+	 * 
 	 * @return the nick
 	 */
 	public String getNick() {
@@ -50,6 +94,7 @@ public class TestSubject implements Serializable {
 	}
 
 	/**
+	 * 
 	 * @return the mode
 	 */
 	public Mode getMode() {
@@ -77,6 +122,7 @@ public class TestSubject implements Serializable {
 	 * 
 	 * @param toFind
 	 *            The alias to search for.
+	 * 
 	 * @return Returns true if the alias is found, false otherwise
 	 */
 	public boolean checkForAlias(String toFind) {

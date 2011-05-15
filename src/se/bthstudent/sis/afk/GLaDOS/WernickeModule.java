@@ -56,6 +56,7 @@ public class WernickeModule implements Serializable {
 	 * @param message
 	 *            Message to check
 	 * 
+	 * 
 	 * @return Returns true if the message is a command, false otherwise.
 	 */
 	public boolean isCommand(String message) {
@@ -67,6 +68,7 @@ public class WernickeModule implements Serializable {
 	 * 
 	 * @param parse
 	 *            The message to parse.
+	 * 
 	 * 
 	 * @return Returns an empty String array if the message isn't a command. If
 	 *         the message is a command the message will be split up into

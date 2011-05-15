@@ -72,7 +72,6 @@ public class GenericUtilityProcessor implements Serializable {
 	/**
 	 * Loads GLaDOS from backup.
 	 * 
-	 * 
 	 * @return GLaDOS
 	 */
 	public Object loadGLaDOSfromFile() {

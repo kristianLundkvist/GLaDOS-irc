@@ -65,6 +65,9 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	 */
 	private int prevTime;
 
+	/**
+	 * An ArrayList containing the test subjects.
+	 */
 	private ArrayList<TestSubject> subjects;
 
 	/**
@@ -78,7 +81,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 		this.backupTimer = 10000;
 		this.prevTime = (int) System.currentTimeMillis();
-		
+
 		this.subjects = new ArrayList<TestSubject>();
 
 		// ugly hack until we've got a database
@@ -132,18 +135,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	}
 
 	/**
-	 * Method onMessage.
-	 * 
-	 * @param channel
-	 *            String
-	 * @param sender
-	 *            String
-	 * @param login
-	 *            String
-	 * @param hostname
-	 *            String
-	 * @param message
-	 *            String
+	 * @see org.jibble.pircbot.PircBot#onMessage(String, String, String, String,
+	 *      String) onMessage
 	 */
 	@Override
 	public void onMessage(String channel, String sender, String login,
@@ -172,37 +165,41 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 				sendMessage(channel, this.quotes[random]);
 			}
-			
-			if(command[0].equalsIgnoreCase("op")){
-				for(TestSubject ts: this.subjects){
-					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+
+			if (command[0].equalsIgnoreCase("op")) {
+				for (TestSubject ts : this.subjects) {
+					if (ts.getNick().equals(command[1])
+							|| ts.checkForAlias(command[1])) {
 						ts.setMode(TestSubject.Mode.OP);
 						this.op(channel, command[1]);
 					}
 				}
 			}
 
-			if(command[0].equalsIgnoreCase("deop")){
-				for(TestSubject ts: this.subjects){
-					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+			if (command[0].equalsIgnoreCase("deop")) {
+				for (TestSubject ts : this.subjects) {
+					if (ts.getNick().equals(command[1])
+							|| ts.checkForAlias(command[1])) {
 						ts.setMode(TestSubject.Mode.NONE);
 						this.deOp(channel, command[1]);
 					}
 				}
 			}
-			
-			if(command[0].equalsIgnoreCase("voice")){
-				for(TestSubject ts: this.subjects){
-					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+
+			if (command[0].equalsIgnoreCase("voice")) {
+				for (TestSubject ts : this.subjects) {
+					if (ts.getNick().equals(command[1])
+							|| ts.checkForAlias(command[1])) {
 						ts.setMode(TestSubject.Mode.VOICE);
 						this.voice(channel, command[1]);
 					}
 				}
 			}
-			
-			if(command[0].equalsIgnoreCase("devoice")){
-				for(TestSubject ts: this.subjects){
-					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+
+			if (command[0].equalsIgnoreCase("devoice")) {
+				for (TestSubject ts : this.subjects) {
+					if (ts.getNick().equals(command[1])
+							|| ts.checkForAlias(command[1])) {
 						ts.setMode(TestSubject.Mode.NONE);
 						this.deVoice(channel, command[1]);
 					}
@@ -210,33 +207,44 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 			}
 		}
 	}
-	
-	public void onJoin(String channel, String sender, String login, String hostname){
+
+	/**
+	 * @see org.jibble.pircbot.PircBot#onJoin(String, String, String, String)
+	 *      onJoin
+	 */
+	public void onJoin(String channel, String sender, String login,
+			String hostname) {
 		boolean found = false;
-		
-		for(TestSubject ts: this.subjects){
-			if(ts.checkForAlias(sender)){
-				if(ts.getMode() == TestSubject.Mode.OP)
+
+		for (TestSubject ts : this.subjects) {
+			if (ts.checkForAlias(sender)) {
+				if (ts.getMode() == TestSubject.Mode.OP)
 					this.op(channel, sender);
-				if(ts.getMode() == TestSubject.Mode.VOICE)
+				if (ts.getMode() == TestSubject.Mode.VOICE)
 					this.voice(channel, sender);
-				
+
 				ts.setNick(sender);
-				
+
 				found = true;
-				
+
 				break;
 			}
 		}
-		
-		if(!found)
-			this.subjects.add(new TestSubject(sender, new String[0], TestSubject.Mode.NONE));
+
+		if (!found)
+			this.subjects.add(new TestSubject(sender, new String[0],
+					TestSubject.Mode.NONE));
 	}
-	
-	public void onNickChange(String oldNick, String login, String hostname, String newNick){
-		for(TestSubject ts: this.subjects){
-			if(ts.getNick().equals(oldNick)){
-				if(!ts.checkForAlias(newNick)){
+
+	/**
+	 * @see org.jibble.pircbot.PircBot#onNickChange(String, String, String,
+	 *      String) onNickChange
+	 */
+	public void onNickChange(String oldNick, String login, String hostname,
+			String newNick) {
+		for (TestSubject ts : this.subjects) {
+			if (ts.getNick().equals(oldNick)) {
+				if (!ts.checkForAlias(newNick)) {
 					ts.addAlias(newNick);
 				}
 				ts.setNick(newNick);
@@ -253,7 +261,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	}
 
 	/**
-	 * Method run.
+	 * Controls the backup timer.
 	 * 
 	 * @see java.lang.Runnable#run()
 	 */
