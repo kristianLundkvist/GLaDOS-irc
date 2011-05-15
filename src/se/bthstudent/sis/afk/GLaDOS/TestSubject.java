@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Class representing a test subject, storing the current nick and know aliases.
  * Also stores the set mode for the subject.
+ * @author Sabbath
  */
 public class TestSubject implements Serializable {
 
@@ -79,8 +80,7 @@ public class TestSubject implements Serializable {
 
 	/**
 	 * 
-	 * @return the nick
-	 */
+	 * @return the nick */
 	public String getNick() {
 		return nick;
 	}
@@ -95,8 +95,7 @@ public class TestSubject implements Serializable {
 
 	/**
 	 * 
-	 * @return the mode
-	 */
+	 * @return the mode */
 	public Mode getMode() {
 		return mode;
 	}
@@ -123,8 +122,7 @@ public class TestSubject implements Serializable {
 	 * @param toFind
 	 *            The alias to search for.
 	 * 
-	 * @return Returns true if the alias is found, false otherwise
-	 */
+	 * @return Returns true if the alias is found, false otherwise */
 	public boolean checkForAlias(String toFind) {
 		boolean found = false;
 

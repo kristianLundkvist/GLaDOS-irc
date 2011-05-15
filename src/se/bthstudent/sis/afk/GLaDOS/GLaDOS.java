@@ -36,8 +36,7 @@ import org.jibble.pircbot.PircBot;
 public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 	/**
-	 * Field serialVersionUID.
-	 * (value is 1482250975340593595)
+	 * Field serialVersionUID. (value is 1482250975340593595)
 	 */
 	private static final long serialVersionUID = 1482250975340593595L;
 
@@ -137,8 +136,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 	/**
 	 * @see org.jibble.pircbot.PircBot#onMessage(String, String, String, String,
-	 *      String) onMessage
-	 */
+	 *      String) onMessage */
 	@Override
 	public void onMessage(String channel, String sender, String login,
 			String hostname, String message) {
@@ -211,8 +209,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 	/**
 	 * @see org.jibble.pircbot.PircBot#onJoin(String, String, String, String)
-	 *      onJoin
-	 */
+	 *      onJoin */
 	public void onJoin(String channel, String sender, String login,
 			String hostname) {
 		boolean found = false;
@@ -239,8 +236,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 	/**
 	 * @see org.jibble.pircbot.PircBot#onNickChange(String, String, String,
-	 *      String) onNickChange
-	 */
+	 *      String) onNickChange */
 	public void onNickChange(String oldNick, String login, String hostname,
 			String newNick) {
 		for (TestSubject ts : this.subjects) {
@@ -264,8 +260,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	/**
 	 * Controls the backup timer.
 	 * 
-	 * @see java.lang.Runnable#run()
-	 */
+	 * @see java.lang.Runnable#run() */
 	@Override
 	public void run() {
 		while (true) {

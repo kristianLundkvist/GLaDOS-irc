@@ -72,8 +72,8 @@ public class GenericUtilityProcessor implements Serializable {
 	/**
 	 * Loads GLaDOS from backup.
 	 * 
-	 * @return GLaDOS
-	 */
+	
+	 * @return GLaDOS */
 	public Object loadGLaDOSfromFile() {
 		Object temp = new Object();
 
@@ -98,7 +98,7 @@ public class GenericUtilityProcessor implements Serializable {
 
 		return temp;
 	}
-	
+
 	/**
 	 * Backup test subjects to file (TestSubjects.backup).
 	 * 
@@ -123,8 +123,8 @@ public class GenericUtilityProcessor implements Serializable {
 	/**
 	 * Load test subjects from file (TestSubjects.backup).
 	 * 
-	 * @return Object Test Subjects
-	 */
+	
+	 * @return Object Test Subjects */
 	public Object loadTestSubjectsFromFile() {
 		Object temp = new Object();
 
