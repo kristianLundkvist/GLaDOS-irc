@@ -17,15 +17,13 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-<<<<<<< HEAD
-package se.bthstudent.sis.afk;
-=======
 package se.bthstudent.sis.afk.GLaDOS;
 
->>>>>>> master
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
-import org.jibble.pircbot.*;
+
+import org.jibble.pircbot.PircBot;
 
 /**
  * GLaDOS, Genetic Lifeform and Disk Operation System, is an artificially
@@ -38,21 +36,20 @@ import org.jibble.pircbot.*;
 public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 	/**
-	 * Field serialVersionUID.
-	 * (value is 1482250975340593595)
+	 * Field serialVersionUID. (value is 1482250975340593595)
 	 */
 	private static final long serialVersionUID = 1482250975340593595L;
-	
+
 	/**
 	 * String array containing random GLaDOS quotes.
 	 */
 	private String[] quotes;
-	
+
 	/**
 	 * WernickeModule object.
 	 */
 	private WernickeModule wernickMod;
-	
+
 	/**
 	 * GenericUtilityProcessor object.
 	 */
@@ -62,12 +59,14 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	 * Stores the time remaining until backup (in milliseconds).
 	 */
 	private int backupTimer;
-	
+
 	/**
 	 * The time at previous run.
 	 */
 	private int prevTime;
 
+	private ArrayList<TestSubject> subjects;
+	
 	/**
 	 * Default constructor for GLaDOS
 	 */
@@ -79,6 +78,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 		this.backupTimer = 10000;
 		this.prevTime = (int) System.currentTimeMillis();
+		
+		this.subjects = new ArrayList<TestSubject>();
 
 		// ugly hack until we've got a database
 		this.quotes = new String[] {
@@ -126,18 +127,26 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 				"Most people emerge from suspension terribly undernourished. I want to congratulate you on beating the odds and somehow managing to pack on a few pounds. ",
 				"I hope you brought something stronger than a portal gun this time. Otherwise, I'm afraid you're about to become the immediate past president of the Being Alive club. Ha ha.",
 				"Clave Johnson: Alright, I've been thinking, when life gives you lemons, don't make lemonade! | GLaDOS: Yeah. | Cave Johnson: Make life take the lemons back! | GLaDOS: Yeah! | Cave Johnson: Get Mad! | GLaDOS: Yeah! | Cave Johnson: I don't want your damn lemons, what am I supposed to do with these? | GLaDOS: Yeah. take the lemons! | Cave Johnson: Demand to see life's manager! Make life rue the day it thought it could give Cave Johnson lemons! Do you know who I am? I'm the man whose gonna burn your house down... with the lemons! | GLaDOS: Oh, I like this guy. | Cave Johnson: I'm gonna get my engineers to invent a combustible lemon that'll burn your house down. | GLaDOS: Burn it down! Burning people. He says what we're all thinking." };
-
+		
+		
 		this.start();
 	}
 
 	/**
 	 * Method onMessage.
-	 * @param channel String
-	 * @param sender String
-	 * @param login String
-	 * @param hostname String
-	 * @param message String
+	 * 
+	 * @param channel
+	 *            String
+	 * @param sender
+	 *            String
+	 * @param login
+	 *            String
+	 * @param hostname
+	 *            String
+	 * @param message
+	 *            String
 	 */
+	@Override
 	public void onMessage(String channel, String sender, String login,
 			String hostname, String message) {
 		if (this.wernickMod.isCommand(message)) {
@@ -164,7 +173,75 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 
 				sendMessage(channel, this.quotes[random]);
 			}
+			
+			if(command[0].equalsIgnoreCase("op")){
+				for(TestSubject ts: this.subjects){
+					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+						ts.setMode(TestSubject.Mode.OP);
+						this.op(channel, command[1]);
+					}
+				}
+			}
 
+			if(command[0].equalsIgnoreCase("deop")){
+				for(TestSubject ts: this.subjects){
+					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+						ts.setMode(TestSubject.Mode.NONE);
+						this.deOp(channel, command[1]);
+					}
+				}
+			}
+			
+			if(command[0].equalsIgnoreCase("voice")){
+				for(TestSubject ts: this.subjects){
+					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+						ts.setMode(TestSubject.Mode.VOICE);
+						this.voice(channel, command[1]);
+					}
+				}
+			}
+			
+			if(command[0].equalsIgnoreCase("devoice")){
+				for(TestSubject ts: this.subjects){
+					if(ts.getNick().equals(command[1]) || ts.checkForAlias(command[1])){
+						ts.setMode(TestSubject.Mode.NONE);
+						this.deVoice(channel, command[1]);
+					}
+				}
+			}
+		}
+	}
+	
+	public void onJoin(String channel, String sender, String login, String hostname){
+		boolean found = false;
+		
+		for(TestSubject ts: this.subjects){
+			if(ts.checkForAlias(sender)){
+				if(ts.getMode() == TestSubject.Mode.OP)
+					this.op(channel, sender);
+				if(ts.getMode() == TestSubject.Mode.VOICE)
+					this.voice(channel, sender);
+				
+				ts.setNick(sender);
+				
+				found = true;
+				
+				break;
+			}
+		}
+		
+		if(!found)
+			this.subjects.add(new TestSubject(sender, new String[0], TestSubject.Mode.NONE));
+	}
+	
+	public void onNickChange(String oldNick, String login, String hostname, String newNick){
+		for(TestSubject ts: this.subjects){
+			if(ts.getNick().equals(oldNick)){
+				if(!ts.checkForAlias(newNick)){
+					ts.addAlias(newNick);
+				}
+				ts.setNick(newNick);
+			}
 		}
 	}
 
@@ -172,14 +249,15 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	 * Starts the thread that controls the backup timer.
 	 */
 	public void start() {
-		Thread t = new Thread(this, "GLaDOSThread");
+		Thread t = new Thread(this, "GLaDOSBackupTimer");
 		t.start();
 	}
 
 	/**
 	 * Method run.
-	
-	 * @see java.lang.Runnable#run() */
+	 * 
+	 * @see java.lang.Runnable#run()
+	 */
 	@Override
 	public void run() {
 		while (true) {
@@ -203,10 +281,9 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 			try {
 				Thread.sleep(1000);
 			} catch (InterruptedException e) {
-				System.out.println("Error: Thread in GLaDOS interrupted.");
+				System.err.println("Error: Thread in GLaDOS interrupted.");
 				e.printStackTrace();
 			}
 		}
 	}
-
 }

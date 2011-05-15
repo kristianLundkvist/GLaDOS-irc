@@ -17,7 +17,7 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.bthstudent.sis.afk;
+package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.Serializable;
 
@@ -33,11 +33,10 @@ import java.io.Serializable;
 public class WernickeModule implements Serializable {
 
 	/**
-	 * Field serialVersionUID.
-	 * (value is -5289384551294934213)
+	 * Field serialVersionUID. (value is -5289384551294934213)
 	 */
 	private static final long serialVersionUID = -5289384551294934213L;
-	
+
 	/**
 	 * String used to save the message to Parse
 	 */
@@ -56,8 +55,9 @@ public class WernickeModule implements Serializable {
 	 * 
 	 * @param message
 	 *            Message to check
-	
-	 * @return Returns true if the message is a command, false otherwise. */
+	 * 
+	 * @return Returns true if the message is a command, false otherwise.
+	 */
 	public boolean isCommand(String message) {
 		return message.substring(0, 1).equalsIgnoreCase("!");
 	}
@@ -67,11 +67,12 @@ public class WernickeModule implements Serializable {
 	 * 
 	 * @param parse
 	 *            The message to parse.
-	
+	 * 
 	 * @return Returns an empty String array if the message isn't a command. If
 	 *         the message is a command the message will be split up into
 	 *         pieces, the first one (at index 0) will be the specific command,
-	 *         the rest will be arguments to the command. */
+	 *         the rest will be arguments to the command.
+	 */
 	public String[] parseString(String parse) {
 		this.parse = parse;
 		String[] toReturn = new String[0];

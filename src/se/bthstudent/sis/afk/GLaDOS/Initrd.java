@@ -17,9 +17,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package se.bthstudent.sis.afk;
+package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.IOException;
+
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 
@@ -46,7 +47,7 @@ public class Initrd {
 		try {
 			bot.connect("irc.bsnet.se");
 		} catch (NickAlreadyInUseException e) {
-			System.out.println("Error: Nick was already in use");
+			System.err.println("Error: Nick was already in use");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
