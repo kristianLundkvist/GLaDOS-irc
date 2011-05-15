@@ -98,5 +98,54 @@ public class GenericUtilityProcessor implements Serializable {
 
 		return temp;
 	}
+	
+	/**
+	 * Backup test subjects to file (TestSubjects.backup).
+	 * 
+	 * @param temp
+	 *            Test subjects
+	 */
+	public void saveTestSubjectsToFile(Object temp) {
+		try {
+			ObjectOutputStream out = new ObjectOutputStream(
+					new FileOutputStream("TestSubjects.backup"));
+
+			out.writeObject(temp);
+
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Load test subjects from file (TestSubjects.backup).
+	 * 
+	 * @return Object Test Subjects
+	 */
+	public Object loadTestSubjectsFromFile() {
+		Object temp = new Object();
+
+		try {
+			ObjectInputStream in = new ObjectInputStream(new FileInputStream(
+					"TestSubjects.backup"));
+
+			try {
+				temp = in.readObject();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+		} catch (FileNotFoundException e) {
+			System.err
+					.println("Error: could not load GLaDOS from GLaDOS.backup, file not found");
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return temp;
+	}
 
 }
