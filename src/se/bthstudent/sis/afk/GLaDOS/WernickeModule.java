@@ -22,13 +22,10 @@ package se.bthstudent.sis.afk.GLaDOS;
 import java.io.Serializable;
 
 /**
- * Message parsing part of GLaDOS. Splits commands from users and other useful
- * functions. An explanation of sorts for the name can be found at
- * http://en.wikipedia.org/wiki/Wernicke%27s_area
- * 
+ * Message parsing part of GLaDOS. Splits commands from users and other useful functions.
+ * An explanation of sorts for the name can be found at http://en.wikipedia.org/wiki/Wernicke%27s_area
  * @author Bobby
- * 
- * @version $Revision: 1.0 $
+ *
  */
 public class WernickeModule implements Serializable {
 
@@ -41,11 +38,11 @@ public class WernickeModule implements Serializable {
 	 * String used to save the message to Parse
 	 */
 	private String parse;
-
+	
 	/**
 	 * Default constructor
 	 */
-	public WernickeModule() {
+	public WernickeModule(){
 		this.parse = "";
 	}
 
@@ -59,7 +56,7 @@ public class WernickeModule implements Serializable {
 	public boolean isCommand(String message) {
 		return message.substring(0, 1).equalsIgnoreCase("!");
 	}
-
+	
 	/**
 	 * Splits a message into manageable chunks to be processed by GLaDOS.
 	 * 
@@ -74,14 +71,15 @@ public class WernickeModule implements Serializable {
 	public String[] parseString(String parse) {
 		this.parse = parse;
 		String[] toReturn = new String[0];
-
-		if (this.isCommand(this.parse)) {
+		
+		if(this.isCommand(this.parse)){
 			this.parse = this.parse.substring(1, this.parse.length());
 			toReturn = this.parse.split("\\s");
-		} else {
+		}
+		else{
 			toReturn = new String[0];
 		}
-
+		
 		return toReturn;
 	}
 }
