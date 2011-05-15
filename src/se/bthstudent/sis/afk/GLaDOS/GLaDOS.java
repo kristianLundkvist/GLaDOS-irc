@@ -261,10 +261,6 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	@Override
 	public void run() {
 		while (true) {
-			/*
-			 * For some reason GLaDOS wont run the backup, dunno yet
-			 */
-
 			int timeElasped = (int) System.currentTimeMillis() - this.prevTime;
 
 			this.prevTime = (int) System.currentTimeMillis();
