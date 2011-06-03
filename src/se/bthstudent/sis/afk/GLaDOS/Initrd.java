@@ -55,6 +55,6 @@ public class Initrd {
 			e.printStackTrace();
 		}
 
-		bot.joinChannel("#GLaDOStest");
+		bot.joinChannel("#GLaDOS-test");
 	}
 }

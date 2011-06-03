@@ -167,13 +167,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 			}
 
 			if (command[0].equalsIgnoreCase("op")) {
-				for (TestSubject ts : this.subjects) {
-					if (ts.getNick().equals(command[1])
-							|| ts.checkForAlias(command[1])) {
-						ts.setMode(TestSubject.Mode.OP);
-						this.op(channel, command[1]);
-					}
-				}
+				this.checkModes(channel, sender);
 			}
 
 			if (command[0].equalsIgnoreCase("deop")) {
@@ -181,19 +175,13 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 					if (ts.getNick().equals(command[1])
 							|| ts.checkForAlias(command[1])) {
 						ts.setMode(TestSubject.Mode.NONE);
-						this.deOp(channel, command[1]);
+						this.deOp(channel, ts.getNick());
 					}
 				}
 			}
 
 			if (command[0].equalsIgnoreCase("voice")) {
-				for (TestSubject ts : this.subjects) {
-					if (ts.getNick().equals(command[1])
-							|| ts.checkForAlias(command[1])) {
-						ts.setMode(TestSubject.Mode.VOICE);
-						this.voice(channel, command[1]);
-					}
-				}
+				this.checkModes(channel, sender);
 			}
 
 			if (command[0].equalsIgnoreCase("devoice")) {
@@ -201,7 +189,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 					if (ts.getNick().equals(command[1])
 							|| ts.checkForAlias(command[1])) {
 						ts.setMode(TestSubject.Mode.NONE);
-						this.deVoice(channel, command[1]);
+						this.deVoice(channel, ts.getNick());
 					}
 				}
 			}
@@ -250,6 +238,29 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 				ts.setNick(newNick);
 			}
 		}
+	}
+	
+	public void checkModes(String channel, String nick){
+		for(TestSubject ts : this.subjects){
+			if(!ts.checkForAlias(nick)){
+				String[] alias = {nick};
+				this.subjects.add(new TestSubject(nick, alias, TestSubject.Mode.NONE));
+			}
+			else{
+				ts.setNick(nick);
+
+				if(ts.getMode() == TestSubject.Mode.VOICE){
+					this.voice(channel, ts.getNick());
+				}
+				else if(ts.getMode() == TestSubject.Mode.OP){
+					this.op(channel, ts.getNick());
+				}
+				else{
+					this.deOp(channel, ts.getNick());
+					this.deVoice(channel, ts.getNick());
+				}
+			}
+		}		
 	}
 
 	/**
