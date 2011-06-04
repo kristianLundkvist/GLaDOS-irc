@@ -168,43 +168,61 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 			}
 
 			if (command[0].equalsIgnoreCase("op")) {
-				for (TestSubject ts : this.subjects) {
-					if (ts.getNick().equals(command[1])
-							|| ts.checkForAlias(command[1])) {
-						ts.setMode(TestSubject.Mode.OP);
-						this.op(channel, command[1]);
+				try{
+					for(TestSubject ts : this.subjects){
+						if(ts.checkForAlias(command[1])){
+							ts.setMode(TestSubject.Mode.OP);
+							this.op(channel, command[1]);
+						}
 					}
 				}
+				catch(ArrayIndexOutOfBoundsException e){
+					this.sendMessage(channel, sender + ": Syntax error, include username");
+				}
+				
 			}
 
 			if (command[0].equalsIgnoreCase("deop")) {
-				for (TestSubject ts : this.subjects) {
-					if (ts.getNick().equals(command[1])
-							|| ts.checkForAlias(command[1])) {
-						ts.setMode(TestSubject.Mode.NONE);
-						this.deOp(channel, command[1]);
+				try{
+					for (TestSubject ts : this.subjects) {
+						if (ts.checkForAlias(command[1])) {
+							ts.setMode(TestSubject.Mode.NONE);
+							this.deOp(channel, command[1]);
+						}
 					}
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					this.sendMessage(channel, sender + ": Syntax error, include username");
 				}
 			}
 
 			if (command[0].equalsIgnoreCase("voice")) {
-				for (TestSubject ts : this.subjects) {
-					if (ts.getNick().equals(command[1])
-							|| ts.checkForAlias(command[1])) {
-						ts.setMode(TestSubject.Mode.VOICE);
-						this.voice(channel, command[1]);
+				try{
+					for(TestSubject ts : this.subjects){
+						if(ts.checkForAlias(command[1])){
+							ts.setMode(TestSubject.Mode.VOICE);
+							this.voice(channel, command[1]);
+						}
 					}
+				}
+				catch(ArrayIndexOutOfBoundsException e){
+					this.sendMessage(channel, sender + ": Syntax error, include username");
 				}
 			}
 
 			if (command[0].equalsIgnoreCase("devoice")) {
-				for (TestSubject ts : this.subjects) {
-					if (ts.getNick().equals(command[1])
-							|| ts.checkForAlias(command[1])) {
-						ts.setMode(TestSubject.Mode.NONE);
-						this.deVoice(channel, command[1]);
+				try{
+					for (TestSubject ts : this.subjects) {
+						if (ts.checkForAlias(command[1])) {
+							ts.setMode(TestSubject.Mode.NONE);
+							this.deVoice(channel, command[1]);
+						}
 					}
 				}
+				catch(ArrayIndexOutOfBoundsException e){
+					this.sendMessage(channel, sender + ": Syntax error, include username");
+				}
+				
 			}
 		}
 	}
@@ -218,12 +236,11 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 
 		for (TestSubject ts : this.subjects) {
 			if (ts.checkForAlias(sender)) {
-				if (ts.getMode() == TestSubject.Mode.OP)
-					this.op(channel, sender);
-				if (ts.getMode() == TestSubject.Mode.VOICE)
-					this.voice(channel, sender);
-
 				ts.setNick(sender);
+				if (ts.getMode() == TestSubject.Mode.OP)
+					this.op(channel, ts.getNick());
+				if (ts.getMode() == TestSubject.Mode.VOICE)
+					this.voice(channel, ts.getNick());
 
 				found = true;
 
@@ -231,9 +248,11 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 			}
 		}
 
-		if (!found)
-			this.subjects.add(new TestSubject(sender, new String[0],
+		if (!found){
+			String[] alias = {sender};
+			this.subjects.add(new TestSubject(sender, alias,
 					TestSubject.Mode.NONE));
+		}
 	}
 
 	/**
