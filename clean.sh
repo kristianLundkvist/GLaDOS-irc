@@ -1,2 +1,4 @@
 rm -Rv pircbot-1.5.0
-rm -v pircbot-1.5.0.zip
+rm -Rv release
+rm -v Release.tar.gz
+rm -v GLaDOS.jar
