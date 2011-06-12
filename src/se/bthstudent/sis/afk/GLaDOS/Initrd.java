@@ -54,12 +54,7 @@ public class Initrd {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-<<<<<<< HEAD
-		
-		bot.joinChannel("#GLaDOStest");
-=======
 
 		bot.joinChannel("#GLaDOS-test");
->>>>>>> 56b8a1c751f9f9b59a2d8dac8d9c4ec91d770a7b
 	}
 }
