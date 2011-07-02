@@ -7,11 +7,13 @@ public class ConfigurationApparatus {
 	private String[] channels;
 	private TestSubject[] admins;
 	private String password;
+	private String server;
 	
 	public ConfigurationApparatus(){
 		this.channels = new String[0];
 		this.admins = new TestSubject[0];
 		this.password = "gasegvioaejrgioajwetg4iojhawergjaweiprgjse89gjaejkrgawjg8jawopjhmae0gb";
+		this.server = "";
 	}
 	
 	public void readConfig(){
@@ -39,6 +41,9 @@ public class ConfigurationApparatus {
 							this.admins[i] = new TestSubject(temp[0], temp, TestSubject.Mode.NONE);
 						}
 					}
+					else if(parts[0].equals("server:")){
+						this.server = parts[1];
+					}
 				}
 				
 				read = in.readLine();
@@ -56,5 +61,13 @@ public class ConfigurationApparatus {
 	
 	public TestSubject[] getAdmins(){
 		return this.admins;
+	}
+	
+	public String getPassword(){
+		return this.password;
+	}
+	
+	public String getServer(){
+		return this.server;
 	}
 }
