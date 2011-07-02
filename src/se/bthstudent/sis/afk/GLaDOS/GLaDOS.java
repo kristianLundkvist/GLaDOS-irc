@@ -306,4 +306,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 			}
 		}
 	}
+	
+	public void addTestSubject(TestSubject ts){
+		this.subjects.add(ts);
+	}
 }

@@ -42,8 +42,12 @@ public class Initrd {
 		
 		bot.setVerbose(true);
 		
+		ConfigurationApparatus config = new ConfigurationApparatus();
+		
+		config.readConfig();
+		
 		try {
-			bot.connect("irc.bsnet.se");
+			bot.connect(config.getServer());
 		} catch (NickAlreadyInUseException e) {
 			System.err.println("Error: Nick was already in use");
 			e.printStackTrace();
@@ -55,6 +59,12 @@ public class Initrd {
 			e.printStackTrace();
 		}
 
-		bot.joinChannel("#GLaDOS-test");
+		for(int i = 0; i < config.getAdmins().length; i++){
+			bot.addTestSubject(config.getAdmins()[i]);
+		}
+		
+		for(int i = 0; i < config.getChannels().length; i++){
+			bot.joinChannel(config.getChannels()[i]);
+		}
 	}
 }
