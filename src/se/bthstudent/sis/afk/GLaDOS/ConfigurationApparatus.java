@@ -17,7 +17,7 @@ public class ConfigurationApparatus {
 	}
 
 	public void readConfig() {
-		String location = ".GLaDOS.rc";
+		String location = ".GLaDOS.conf";
 
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(location));
