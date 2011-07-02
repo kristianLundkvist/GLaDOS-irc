@@ -26,35 +26,45 @@ import org.jibble.pircbot.NickAlreadyInUseException;
 
 /**
  * Main class for GLaDOS
+ * 
  * @author Bobby, Prosten
  * @version 0.0.25
- *
+ * 
  */
 public class Initrd {
 
 	/**
 	 * Starts GLaDOS, connects to server and join channels.
-	 * @param args Runtime arguments
+	 * 
+	 * @param args
+	 *            Runtime arguments
 	 */
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		GLaDOS bot = new GLaDOS();
-		
+
 		bot.setVerbose(true);
-		
+
+		ConfigurationApparatus config = new ConfigurationApparatus();
+
+		config.readConfig();
+
 		try {
-			bot.connect("irc.bsnet.se");
+			bot.connect(config.getServer());
 		} catch (NickAlreadyInUseException e) {
 			System.err.println("Error: Nick was already in use");
 			e.printStackTrace();
-		}
-		catch (IrcException e) {
+		} catch (IrcException e) {
 			e.printStackTrace();
-		} 
-		catch (IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		bot.joinChannel("#GLaDOS-test");
+		for (int i = 0; i < config.getAdmins().length; i++) {
+			bot.addTestSubject(config.getAdmins()[i]);
+		}
+
+		for (int i = 0; i < config.getChannels().length; i++) {
+			bot.joinChannel(config.getChannels()[i]);
+		}
 	}
 }

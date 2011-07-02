@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Class representing a test subject, storing the current nick and know aliases.
  * Also stores the set mode for the subject.
+ * 
  * @author Sabbath
  */
 public class TestSubject implements Serializable {
@@ -45,6 +46,8 @@ public class TestSubject implements Serializable {
 	 */
 	private Mode mode;
 
+	private boolean admin;
+
 	/**
 	 * Constructor for TestSubject.
 	 */
@@ -52,6 +55,7 @@ public class TestSubject implements Serializable {
 		this.setNick("");
 		this.alias = new String[0];
 		this.setMode(Mode.NONE);
+		this.admin = false;
 	}
 
 	/**
@@ -64,10 +68,11 @@ public class TestSubject implements Serializable {
 	 * @param mode
 	 *            Current mode.
 	 */
-	public TestSubject(String nick, String[] alias, Mode mode) {
+	public TestSubject(String nick, String[] alias, Mode mode, boolean admin) {
 		this.setNick(nick);
 		this.alias = alias;
 		this.setMode(mode);
+		this.admin = admin;
 	}
 
 	/**
@@ -80,7 +85,8 @@ public class TestSubject implements Serializable {
 
 	/**
 	 * 
-	 * @return the nick */
+	 * @return the nick
+	 */
 	public String getNick() {
 		return nick;
 	}
@@ -95,9 +101,18 @@ public class TestSubject implements Serializable {
 
 	/**
 	 * 
-	 * @return the mode */
+	 * @return the mode
+	 */
 	public Mode getMode() {
 		return mode;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
+	}
+
+	public boolean getAdmin() {
+		return this.admin;
 	}
 
 	/**
@@ -122,7 +137,8 @@ public class TestSubject implements Serializable {
 	 * @param toFind
 	 *            The alias to search for.
 	 * 
-	 * @return Returns true if the alias is found, false otherwise */
+	 * @return Returns true if the alias is found, false otherwise
+	 */
 	public boolean checkForAlias(String toFind) {
 		boolean found = false;
 
