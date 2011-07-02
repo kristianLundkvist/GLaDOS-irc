@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import org.jibble.pircbot.PircBot;
+import org.jibble.pircbot.User;
 
 /**
  * GLaDOS, Genetic Lifeform and Disk Operation System, is an artificially
@@ -388,5 +389,26 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		}
 
 		return admin;
+	}
+	
+	public void onUserList(String channel, User[] users){
+		String[] nicks = new String[users.length];
+		
+		for(int i = 0; i < nicks.length; i++){
+			nicks[i] = users[i].getNick();
+		}
+		
+		for(int i = 0; i < nicks.length; i++){
+			boolean found = false;
+			for(TestSubject ts: this.subjects){
+				if(ts.checkForAlias(nicks[i])){
+					found = true;
+				}
+			}
+			if(!found){
+				String[] alias = {nicks[i]};
+				this.subjects.add(new TestSubject(nicks[i], alias, TestSubject.Mode.NONE, false));
+			}
+		}
 	}
 }

@@ -39,6 +39,7 @@ public class ConfigurationApparatus {
 							String[] temp = { parts[i + 1] };
 							this.admins[i] = new TestSubject(temp[0], temp,
 									TestSubject.Mode.NONE, true);
+							System.out.println("Added admin: " + temp[0]);
 						}
 					} else if (parts[0].equals("server:")) {
 						this.server = parts[1];
