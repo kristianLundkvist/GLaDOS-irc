@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Bj�rner
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
 
 	This file is a part of GLaDOS
 

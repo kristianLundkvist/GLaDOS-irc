@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Bj�rner
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
 
 	This file is a part of GLaDOS
 
@@ -41,6 +41,11 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 	 * String array containing random GLaDOS quotes.
 	 */
 	private String[] quotes;
+	
+	/**
+	 * A checker if GLaDOS will talk when she is mentioned
+	 */
+	private boolean silence;
 
 	/**
 	 * WernickeModule object.
@@ -51,6 +56,11 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 	 * GenericUtilityProcessor object.
 	 */
 	private GenericUtilityProcessor gup;
+	
+	/**
+	 * CentralAIMatrix object.
+	 */
+	private CentralAIMatrix cam;
 
 	/**
 	 * Stores the time remaining until backup (in milliseconds).
@@ -76,6 +86,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 		
 		this.wernickMod = new WernickeModule();
 		this.gup = new GenericUtilityProcessor();
+		this.cam = new CentralAIMatrix();
+		this.silence = true;
 		
 		this.backupTimer = 10000;
 		
@@ -153,7 +165,10 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 				hours = now.get(Calendar.HOUR_OF_DAY);
 				minutes = now.get(Calendar.MINUTE);
 				String time = "";
-				time = hours + ":" + minutes;
+				if(minutes < 10)
+					time = hours + ":0" + minutes;
+				else
+					time = hours + ":" + minutes;
 
 
 				sendMessage(channel, sender + ": The time is now: " + time);
@@ -165,6 +180,30 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 				int random = (int) (Math.random()*this.quotes.length);
 
 				sendMessage(channel, this.quotes[random]);
+			}
+			
+			if(command[0].equalsIgnoreCase("silence"))
+			{
+				this.silence = true;
+				sendMessage(channel, "I will now go into sleep, goodbye!");
+			}
+			
+			if(command[0].equalsIgnoreCase("talk"))
+			{
+				this.silence = false;
+				sendMessage(channel, "Oh, now I'm back. Hello!");
+			}
+			
+			if(command[0].equalsIgnoreCase("talkMode"))
+			{
+				if(silence)
+				{
+					sendMessage(channel, "*Automated responce: GLaDOS is resting*");
+				}
+				if(!silence)
+				{
+					sendMessage(channel, "*Automated responce: GLaDOS is listening* ");
+				}
 			}
 
 			if (command[0].equalsIgnoreCase("op")) {
@@ -225,7 +264,23 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 				
 			}
 		}
+		else if(!this.wernickMod.isCommand(message) && message.contains("GLaDOS") && !silence)
+		{
+			if(message.length()%2 == 0)
+			{
+				this.sendMessage(channel, this.cam.response());
+			}
+			else
+			{
+				this.sendMessage(channel, this.cam.specificResponse(message));
+			}
+		}
+		else if(!this.wernickMod.isCommand(message) && !message.startsWith("http"))
+		{
+			this.cam.addToIntellect(message);
+		}
 	}
+	
 
 	/**
 	 * @see org.jibble.pircbot.PircBot#onJoin(String, String, String, String)
@@ -294,6 +349,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 			if(this.backupTimer < 0){
 				System.out.println("Running backup on GLaDOS");
 				this.gup.saveGLaDOStoFile(this);
+				this.cam.backUp();
 				System.out.println("Backup done");
 				this.backupTimer = 1800000;
 			}

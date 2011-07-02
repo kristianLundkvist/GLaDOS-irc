@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Bjï¿½rner
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
 
 	This file is a part of GLaDOS
 
@@ -149,7 +149,7 @@ public class GenericUtilityProcessor implements Serializable{
 			}
 		} catch (FileNotFoundException e) {
 			System.err
-					.println("Error: could not load GLaDOS from GLaDOS.backup, file not found");
+					.println("Error: could not load TestSubject from TestSubjects.backup, file not found");
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
