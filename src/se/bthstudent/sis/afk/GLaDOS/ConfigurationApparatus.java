@@ -50,7 +50,7 @@ public class ConfigurationApparatus {
 
 		} catch (IOException e) {
 			System.out
-					.println(".GLaDOS.rc doesn't exist, please create before running GLaDOS");
+					.println(".GLaDOS.conf doesn't exist, please create before running GLaDOS");
 			System.exit(0);
 		}
 	}
