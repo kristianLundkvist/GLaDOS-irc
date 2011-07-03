@@ -24,7 +24,7 @@ public class ConfigurationApparatus {
 
 			String read = in.readLine();
 			while (read != null) {
-				if (!read.equals("")) {
+				if (!read.equals("") && !read.substring(0,1).equals("#")) {
 					String[] parts = read.split(" ");
 
 					if (parts[0].equals("channels:")) {
