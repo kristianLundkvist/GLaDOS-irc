@@ -11,8 +11,9 @@ mv -v jwpl_v05b.jar lib/
 mv -v JMegaHal.jar lib/
 chmod 755 -v lib/*
 rm -v pircbot-1.5.0.zip
+rm -rv pircbot-1.5.0
 rm -rv src/
 rm -rv test/
-rm -v jwbf-1.3.3-298.src.tar
+rm -v jwbf-1.3.3-298-src.tar 
 rm LICENCE.txt
 rm CHANGELOG.txt
