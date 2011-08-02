@@ -20,6 +20,12 @@
 package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
+
+import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
+import net.sourceforge.jwbf.core.actions.util.ActionException;
+import net.sourceforge.jwbf.core.actions.util.ProcessException;
+import net.sourceforge.jwbf.core.contentRep.SimpleArticle;
 
 /**
  * Wikipedia Search module of GLaDOS. Searches Wikipedia with the help of the WernickeModule.
@@ -33,20 +39,19 @@ public class SearchModule implements Serializable {
 	 * Field serialVersionUID. (value is -3339908201447963373)
 	 */
 	private static final long serialVersionUID = -3339908201447963373L;
+	MediaWikiBot mMediaWikiBot;
+	SimpleArticle mSimpleArticle;
 	
-	public SearchModule(){
-	
+	public SearchModule() throws MalformedURLException, ActionException{
+		
+		mMediaWikiBot = new MediaWikiBot("http://en.wikipedia.org/w/");
+		mMediaWikiBot.login(UserName, Password);
+	}
+		
+	public String wikiSearch(String searchString) throws ActionException, ProcessException {
+		//search code
+		mSimpleArticle = new SimpleArticle(mMediaWikiBot.readContent(searchString));
+		return mSimpleArticle.getText();
 	}
 	
-	public void wikiSearch(String searchString) {
-		//search code		
-	}
-	
-	public void formatResult(String resultString) {
-		/**	
-		 * formatting of the result to readable text
-		 * and small fixes that removes html-tags		
-		 **/
-	}
-
 }
