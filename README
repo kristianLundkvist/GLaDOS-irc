@@ -2,8 +2,6 @@ GLaDOS - Genetic Lifeform and Disk Operation System
 
 Authors: Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner (aka, the guys to blame when the neurotoxin is released)
 
-Version: 0.1.5
-
 License: GNU GPL
 
 Description: GLaDOS control IRC channels and performs test on the users.
