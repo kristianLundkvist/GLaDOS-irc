@@ -19,13 +19,16 @@
 
 package se.bthstudent.sis.afk.GLaDOS;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.MalformedURLException;
-
-import net.sourceforge.jwbf.mediawiki.bots.MediaWikiBot;
+import java.net.URL;
 import net.sourceforge.jwbf.core.actions.util.ActionException;
 import net.sourceforge.jwbf.core.actions.util.ProcessException;
-import net.sourceforge.jwbf.core.contentRep.SimpleArticle;
 
 /**
  * Wikipedia Search module of GLaDOS. Searches Wikipedia with the help of the WernickeModule.
@@ -39,19 +42,37 @@ public class SearchModule implements Serializable {
 	 * Field serialVersionUID. (value is -3339908201447963373)
 	 */
 	private static final long serialVersionUID = -3339908201447963373L;
-	MediaWikiBot mMediaWikiBot;
-	SimpleArticle mSimpleArticle;
+
 	
 	public SearchModule() throws MalformedURLException, ActionException{
 		
-		mMediaWikiBot = new MediaWikiBot("http://en.wikipedia.org/w/");
-		mMediaWikiBot.login(UserName, Password);
 	}
 		
-	public String wikiSearch(String searchString) throws ActionException, ProcessException {
+	public String wikiSearch(String searchString) throws ActionException, ProcessException, IOException {
 		//search code
-		mSimpleArticle = new SimpleArticle(mMediaWikiBot.readContent(searchString));
-		return mSimpleArticle.getText();
+		//mSimpleArticle = new SimpleArticle(mMediaWikiBot.readContent(searchString));
+		String str = "";
+
+		int fileLines = 0;
+
+		 URL wikiURL = null;
+		 wikiURL = new URL("http://en.wikipedia.org:80/w/index.php?title=Special%3ASearch&ns0=1&search=" + searchString + "&=MediaWiki+search&fulltext=Advanced+search");
+		 BufferedWriter out = new BufferedWriter(new FileWriter("test.txt"));
+		 
+		 BufferedReader in = new BufferedReader(new InputStreamReader(wikiURL.openStream()));
+	 
+	 
+		 while((str = in.readLine()) != null)
+		 {
+			 str += "<br>";
+			 out.write(str);
+			 fileLines++;
+		 }
+		 out.close();
+		 
+		 
+			 
+		return "hai";
 	}
 	
 }
