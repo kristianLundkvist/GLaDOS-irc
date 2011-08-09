@@ -22,8 +22,6 @@ package se.bthstudent.sis.afk.GLaDOS;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
-import net.sourceforge.jwbf.core.actions.util.ActionException;
-
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 
@@ -41,7 +39,7 @@ public class Initrd {
 	 * @throws ActionException 
 	 * @throws MalformedURLException 
 	 */
-	public static void main(String[] args) throws MalformedURLException, ActionException
+	public static void main(String[] args) throws MalformedURLException
 	{
 		GLaDOS bot = new GLaDOS();
 		
