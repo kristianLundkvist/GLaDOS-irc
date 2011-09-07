@@ -1,5 +1,5 @@
 /*
-    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Björner
+    Copyright (C) 2011  Kristian 'Bobby' Lundkvist, Niclas 'Prosten' Bj�rner
 
 	This file is a part of GLaDOS
 
@@ -20,51 +20,44 @@
 package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
 
 /**
  * Main class for GLaDOS
- * 
  * @author Bobby, Prosten
  * @version 0.0.25
- * 
+ *
  */
 public class Initrd {
 
 	/**
 	 * Starts GLaDOS, connects to server and join channels.
-	 * 
-	 * @param args
-	 *            Runtime arguments
+	 * @param args Runtime arguments
+	 * @throws ActionException 
+	 * @throws MalformedURLException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws MalformedURLException
+	{
 		GLaDOS bot = new GLaDOS();
-
+		
 		bot.setVerbose(true);
-
-		ConfigurationApparatus config = new ConfigurationApparatus();
-
-		config.readConfig();
-
+		
 		try {
-			bot.connect(config.getServer());
+			bot.connect("irc.bsnet.se");
 		} catch (NickAlreadyInUseException e) {
 			System.err.println("Error: Nick was already in use");
 			e.printStackTrace();
-		} catch (IrcException e) {
+		}
+		catch (IrcException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 
-		for (int i = 0; i < config.getAdmins().length; i++) {
-			bot.addTestSubject(config.getAdmins()[i]);
-		}
-
-		for (int i = 0; i < config.getChannels().length; i++) {
-			bot.joinChannel(config.getChannels()[i]);
-		}
+		bot.joinChannel("#GDT");
 	}
 }
