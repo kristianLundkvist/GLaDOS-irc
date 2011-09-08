@@ -20,6 +20,7 @@
 package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.Serializable;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -72,6 +73,11 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	private int backupTimer;
 
 	/**
+	 * SearchModule object
+	 */
+	private SearchModule sm;
+
+	/**
 	 * The time at previous run.
 	 */
 	private int prevTime;
@@ -93,6 +99,12 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		this.silence = true;
 		
 		this.backupTimer = 10000;
+
+		try {
+			this.sm = new SearchModule();
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		}
 
 		this.prevTime = (int) System.currentTimeMillis();
 
