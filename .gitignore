@@ -3,8 +3,7 @@
 *.obj
 *.classpath
 *.project
-/doc
-doc/*
+lib/
 *.settings/
 GLaDOS.backup
 CentralAIMatrix.backup
