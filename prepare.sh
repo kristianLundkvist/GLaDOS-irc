@@ -7,3 +7,4 @@ mv -v pircbot-1.5.0/pircbot.jar lib/
 mv -v JMegaHal.jar lib/
 chmod 755 -v lib/*
 rm -v pircbot-1.5.0.zip
+rm -Rv pircbot-1.5.0/
