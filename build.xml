@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project GLaDOS-irc with libraries in sub-folder">
-    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
-    <!--ANT 1.7 is required                                        -->
-    <target name="create_run_jar">
-        <jar destfile="./GLaDOS.jar">
-            <manifest>
-                <attribute name="Main-Class" value="se.bthstudent.sis.afk.GLaDOS.Initrd"/>
-                <attribute name="Class-Path" value=". lib/jwpl_v05b.jar lib/pircbot.jar GLaDOS_lib/jwpl_v05b.jar GLaDOS_lib/pircbot.jar"/>
-            </manifest>
-            <fileset dir="./bin"/>
-            <fileset dir="./lib"/>
-        </jar>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. -->
+<project basedir="." default="build" name="GLaDOS-irc">
+    <property environment="env"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <path id="GLaDOS-irc.classpath">
+        <pathelement location="bin"/>
+        <pathelement location="lib/jwpl_v05b.jar"/>
+        <pathelement location="lib/pircbot.jar"/>
+        <pathelement location="lib/JMegaHal.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="bin"/>
+        <copy includeemptydirs="false" todir="bin">
+            <fileset dir="src">
+                <exclude name="**/*.launch"/>
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+    </target>
+    <target name="clean">
+        <delete dir="bin"/>
+    </target>
+    <target depends="clean" name="cleanall"/>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects"/>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="bin" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="GLaDOS-irc.classpath"/>
+        </javac>
+    </target>
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
+    <target name="Initrd">
+        <java classname="se.bthstudent.sis.afk.GLaDOS.Initrd" failonerror="true" fork="yes">
+            <classpath refid="GLaDOS-irc.classpath"/>
+        </java>
     </target>
 </project>

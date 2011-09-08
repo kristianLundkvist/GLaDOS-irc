@@ -1,0 +1,12 @@
+We will shortly add a runnable jar file to the github page, until then this
+is what you'll have to do:
+
+0. Download current master from github.
+
+1. Create a new java project in Eclipse from the downloaded source.
+
+2. Run prepare.sh and add the libraries to the Eclipse project.
+
+3. Export project as an Runnable Jar File.
+
+4. Create .GLaDOS.conf and run GLaDOS with 'java -jar GLaDOS.jar'.
