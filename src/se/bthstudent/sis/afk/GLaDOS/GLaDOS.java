@@ -23,6 +23,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import net.sourceforge.jwbf.core.actions.util.ActionException;
 
 import org.jibble.pircbot.PircBot;
 
@@ -90,7 +91,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 	 * @throws ActionException 
 	 * @throws MalformedURLException 
 	 */
-	public GLaDOS() throws MalformedURLException
+	public GLaDOS() throws MalformedURLException, ActionException
 	{
 		this.setName("GLaDOS");
 		
@@ -187,6 +188,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 				int minutes;
 
 				Calendar now = Calendar.getInstance();
+
 				hours = now.get(Calendar.HOUR_OF_DAY);
 				minutes = now.get(Calendar.MINUTE);
 				String time = "";
@@ -331,7 +333,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable{
 		if (!found){
 			String[] alias = {sender};
 			this.subjects.add(new TestSubject(sender, alias,
-					TestSubject.Mode.NONE, false));
+					TestSubject.Mode.NONE));
 		}
 	}
 
