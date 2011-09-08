@@ -28,7 +28,7 @@
         <delete dir="bin"/>
     </target>
     <target depends="clean" name="cleanall"/>
-    <target depends="build-subprojects,build-project" name="build"/>
+    <target depends="build-subprojects,build-project,build-jar,build-tar" name="build"/>
     <target name="build-subprojects"/>
     <target depends="init" name="build-project">
         <echo message="${ant.project.name}: ${ant.file}"/>
@@ -37,6 +37,29 @@
             <classpath refid="GLaDOS-irc.classpath"/>
         </javac>
     </target>
+	<target name="build-jar">
+		<mkdir dir="release"/>
+		<manifestclasspath property="jar.classpath" jarfile=".">
+			<classpath refid="GLaDOS-irc.classpath" />
+		</manifestclasspath>
+		
+		<jar destfile="release/GLaDOS.jar" basedir="bin">
+			<manifest>
+				<attribute name="Main-Class" value="se.bthstudent.sis.afk.GLaDOS.Initrd"/>
+				<attribute name="Class-Path" value="${jar.classpath}"/>
+			</manifest>
+		</jar>
+	</target>
+	<target name="build-tar">
+		<tar destfile="Release.tar.gz">
+			<fileset dir="release">
+    			<include name="*"/>
+			</fileset>
+			<fileset dir=".">
+    			<include name="lib/**"/>
+			</fileset>
+		</tar>
+	</target>
     <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects"/>
     <target name="Initrd">
         <java classname="se.bthstudent.sis.afk.GLaDOS.Initrd" failonerror="true" fork="yes">
