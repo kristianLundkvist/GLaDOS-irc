@@ -47,6 +47,8 @@ public class TestSubject implements Serializable {
 	private Mode mode;
 
 	private boolean admin;
+	
+	private boolean ignored;
 
 	/**
 	 * Constructor for TestSubject.
@@ -56,6 +58,7 @@ public class TestSubject implements Serializable {
 		this.alias = new String[0];
 		this.setMode(Mode.NONE);
 		this.admin = false;
+		this.ignored = false;
 	}
 
 	/**
@@ -68,11 +71,12 @@ public class TestSubject implements Serializable {
 	 * @param mode
 	 *            Current mode.
 	 */
-	public TestSubject(String nick, String[] alias, Mode mode, boolean admin) {
+	public TestSubject(String nick, String[] alias, Mode mode, boolean admin, boolean ignored) {
 		this.setNick(nick);
 		this.alias = alias;
 		this.setMode(mode);
 		this.admin = admin;
+		this.ignored = ignored;
 	}
 
 	/**
@@ -113,6 +117,14 @@ public class TestSubject implements Serializable {
 
 	public boolean getAdmin() {
 		return this.admin;
+	}
+	
+	public void setIgnored(boolean Ignored) {
+		this.ignored = Ignored;
+	}
+	
+	public boolean getIgnored() {
+		return this.ignored;
 	}
 
 	/**

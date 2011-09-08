@@ -86,7 +86,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	 * An ArrayList containing the test subjects.
 	 */
 	private ArrayList<TestSubject> subjects;
-
+	
 	/**
 	 * Default constructor for GLaDOS
 	 */
@@ -198,8 +198,6 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 					time = hours + ":" + minutes;
 
 				sendMessage(channel, sender + ": The time is now: " + time);
-				sendMessage(channel, sender
-						+ ": Sometime tomorrow, there will be cake.");
 			}
 
 			if (command[0].equalsIgnoreCase("GLaDOS")) {
@@ -210,14 +208,20 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 			
 			if(command[0].equalsIgnoreCase("silence"))
 			{
-				this.silence = true;
-				sendMessage(channel, "I will now go into sleep, goodbye!");
+				if(isAdmin(sender))
+				{
+					this.silence = true;
+					sendMessage(channel, "I will now go into sleep, goodbye!");
+				}
 			}
 			
 			if(command[0].equalsIgnoreCase("talk"))
 			{
-				this.silence = false;
-				sendMessage(channel, "Oh, now I'm back. Hello!");
+				if(isAdmin(sender))
+				{
+					this.silence = false;
+					sendMessage(channel, "Oh, now I'm back. Hello!");
+				}
 			}
 			
 			if(command[0].equalsIgnoreCase("talkMode"))
@@ -311,7 +315,8 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		}
 		else if(!this.wernickMod.isCommand(message) && !message.startsWith("http"))
 		{
-			this.cam.addToIntellect(message);
+			if(!isIgnored(sender))
+				this.cam.addToIntellect(message);
 		}
 	}
 	
@@ -341,7 +346,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		if (!found) {
 			String[] alias = { sender };
 			this.subjects.add(new TestSubject(sender, alias,
-					TestSubject.Mode.NONE, false));
+					TestSubject.Mode.NONE, false, false));
 		}
 	}
 
@@ -416,6 +421,18 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		return admin;
 	}
 	
+	public boolean isIgnored(String nick) {
+		boolean ignored = false;
+		
+		for(TestSubject ts : this.subjects) {
+			if (ts.checkForAlias(nick) && ts.getIgnored()) {
+				ignored = true;
+			}
+		}
+		
+		return ignored;
+	}
+	
 	public void onUserList(String channel, User[] users){
 		String[] nicks = new String[users.length];
 		
@@ -432,7 +449,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 			}
 			if(!found){
 				String[] alias = {nicks[i]};
-				this.subjects.add(new TestSubject(nicks[i], alias, TestSubject.Mode.NONE, false));
+				this.subjects.add(new TestSubject(nicks[i], alias, TestSubject.Mode.NONE, false, false));
 			}
 		}
 	}
