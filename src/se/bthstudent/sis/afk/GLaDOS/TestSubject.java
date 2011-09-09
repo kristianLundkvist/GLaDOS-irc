@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Class representing a test subject, storing the current nick and know aliases.
  * Also stores the set mode for the subject.
  * 
- * @author Sabbath
+ * @author Sabbath, Cromigon
  */
 public class TestSubject implements Serializable {
 
