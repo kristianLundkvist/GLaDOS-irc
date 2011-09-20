@@ -9,3 +9,5 @@ CentralAIMatrix.backup
 pircbot-1.5.0/
 .GLaDOS.conf
 *.txt
+tmp/*
+Release.tar.gz

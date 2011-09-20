@@ -60,8 +60,8 @@ public class SearchModule implements Serializable {
 		
 		//get the URL to the Wiki-search and start all the writers and readers
 		wikiURL = new URL("http://en.wikipedia.org:80/w/index.php?title=Special%3ASearch&ns0=1&search=" + searchString + "&=MediaWiki+search&fulltext=Advanced+search");
-		BufferedWriter out = new BufferedWriter(new FileWriter("wikipediaData.txt"));
-		BufferedReader inFile = new BufferedReader(new FileReader("wikipediaData.txt"));
+		BufferedWriter out = new BufferedWriter(new FileWriter("tmp/wikipediaData.txt"));
+		BufferedReader inFile = new BufferedReader(new FileReader("tmp/wikipediaData.txt"));
 		BufferedReader in = new BufferedReader(new InputStreamReader(wikiURL.openStream()));
 
 		//Add <br> so that I have something to go on when I split it up later.
