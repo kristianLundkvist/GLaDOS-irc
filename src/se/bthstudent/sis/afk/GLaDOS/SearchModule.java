@@ -138,5 +138,77 @@ public class SearchModule implements Serializable {
 		//Return the result
 		return endResult + " - " + URL;
 	}
+	
+	public String TBVsearch(String searchString) throws IOException {
+
+		//search code
+		
+				//set all the strings that I will need in the extraction
+				String str = "";
+				String newString = "";
+				String information = "";
+				URL tbvURL = null;
+				
+				//get the URL to the Wiki-search and start all the writers and readers
+				tbvURL = new URL("http://tbv.bsnet.se:80/index.php/" + searchString);
+				BufferedWriter out = new BufferedWriter(new FileWriter("tmp/tbvData.txt"));
+				BufferedReader inFile = new BufferedReader(new FileReader("tmp/tbvData.txt"));
+				BufferedReader in = new BufferedReader(new InputStreamReader(tbvURL.openStream()));
+
+				//Add <br> so that I have something to go on when I split it up later.
+				while((str = in.readLine()) != null)
+				{
+					str += "<br>";
+					out.write(str);
+				}
+
+				out.close();
+				in.close();
+
+				//Read the file with all the raw html to one string
+				newString = inFile.readLine();
+				inFile.close();
+
+				//Split the string up into an String array based on where you find the <br> tag
+				String[] x =
+					Pattern.compile("<br>").split(newString);
+
+				boolean done = false;
+				boolean found = false;
+				
+				//Search for the most relevant information
+				for(int i = 0; i < x.length; i++)
+				{
+					if(!done)
+					{
+						if(x[i].contains("<p>"))
+							found = true;
+						if(found)
+						{
+							information += x[i];
+							if(x[i].contains("</p>"))
+							{
+								done = true;
+							}
+						}
+					}
+				}
+
+
+				//Parse it and remove all tags etc.
+				String endResult = information.replaceAll("\\<.*?\\>", "");
+
+				endResult = endResult.trim().replaceAll("\\(redirect.+?\\)", "");
+				endResult = endResult.trim().replaceAll("   +", " - ");
+				endResult = endResult.trim().replaceAll("   ", " ");
+				endResult = endResult.trim().replaceAll("  ", " ");
+
+				if(endResult != "")
+					return endResult + " - http://tbv.bsnet.se/index.php/" + searchString;
+				
+				else
+					return "Finns inte på TBV-Wiki =(";
+		
+	}
 
 }

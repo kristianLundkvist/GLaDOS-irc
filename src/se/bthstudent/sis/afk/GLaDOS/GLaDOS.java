@@ -185,6 +185,20 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 			
 				}
 			}
+			
+			if(command[0].equalsIgnoreCase("tbv"))
+			{
+				try {
+					String searchMessage;
+					searchMessage = this.sm.TBVsearch(command[1]);
+                    sendMessage(channel, searchMessage);
+                    
+				} catch (Exception e) {
+                    sendMessage(channel, "No can do");
+                    e.printStackTrace();   
+				}    
+
+			}
 
 
 			if (command[0].equalsIgnoreCase("time")) {
