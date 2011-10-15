@@ -19,6 +19,7 @@
 
 package se.bthstudent.sis.afk.GLaDOS;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -335,6 +336,22 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		{
 			if(!isIgnored(sender))
 				this.cam.addToIntellect(message);
+		}
+		
+		else if(!this.wernickMod.isCommand(message) && message.contains("youtube.com")) {
+			try {
+				this.sendMessage(channel, this.sm.youtubeName(message));
+			} catch (IOException e) {
+				this.sendMessage(channel, "syntax (t)error");
+			}
+		}
+		
+		else if(!this.wernickMod.isCommand(message) && message.contains("open.spotify.com")) {
+			try {
+				this.sendMessage(channel, this.sm.spotifyName(message));
+			} catch (IOException e) {
+				this.sendMessage(channel, "syntax (t)error");
+			}
 		}
 	}
 	
