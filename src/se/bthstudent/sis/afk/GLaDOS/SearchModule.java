@@ -24,11 +24,16 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.regex.Pattern;
+
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 
 /**
  * Wikipedia Search module of GLaDOS. Searches Wikipedia with the help of the
@@ -206,36 +211,32 @@ public class SearchModule implements Serializable {
 
 	}
 
-	public String youtubeName(String message) throws IOException {
-
-		String[] x = Pattern.compile(" ").split(message);
+	public String returnURL(String searchString) throws IOException {
+		String[] x = Pattern.compile(" ").split(searchString);
 
 		boolean done = false;
 		boolean found = false;
-		String youTubeURL = "";
+		String message = "";
 
 		// Search for the most relevant information
 		for (int i = 0; i < x.length; i++) {
 			if (!done) {
-				if (x[i].contains("http://"))
+				if (x[i].contains("http"))
 					found = true;
 				if (found) {
-					youTubeURL = x[i];
+					message = x[i];
 					done = true;
 				}
 			}
 		}
 
-		URL youtURL = new URL(youTubeURL);
-
-		// get the URL to the youtube-search and start all the writers and readers
-
+		URL url = new URL(message);
 		BufferedWriter out = new BufferedWriter(new FileWriter(
-				"tmp/youtubeData.txt"));
+				"tmp/urlData.txt"));
 		BufferedReader inFile = new BufferedReader(new FileReader(
-				"tmp/youtubeData.txt"));
+				"tmp/urlData.txt"));
 		BufferedReader in = new BufferedReader(new InputStreamReader(
-				youtURL.openStream()));
+				url.openStream()));
 
 		String str, newString, information = "";
 
@@ -278,84 +279,13 @@ public class SearchModule implements Serializable {
 		endResult = endResult.trim().replaceAll("   +", " ");
 		endResult = endResult.trim().replaceAll("   ", " ");
 		endResult = endResult.trim().replaceAll("  ", " ");
-		endResult = endResult.trim().replaceAll("- YouTube", "[YouTube]");
-
-		return endResult;
-	}
-
-	public String spotifyName(String message) throws IOException {
-		String[] x = Pattern.compile(" ").split(message);
-
-		boolean done = false;
-		boolean found = false;
-		String spotifyURL = "";
-
-		// Search for the most relevant information
-		for (int i = 0; i < x.length; i++) {
-			if (!done) {
-				if (x[i].contains("http://"))
-					found = true;
-				if (found) {
-					spotifyURL = x[i];
-					done = true;
-				}
-			}
+		if(message.contains("youtube")) {
+			endResult = endResult.trim().replaceAll("- YouTube", "[YouTube]");
 		}
-
-		URL spotURL = new URL(spotifyURL);
-
-		// get the URL to the youtube-search and start all the writers and readers
-
-		BufferedWriter out = new BufferedWriter(new FileWriter(
-				"tmp/spotifyData.txt"));
-		BufferedReader inFile = new BufferedReader(new FileReader(
-				"tmp/spotifyData.txt"));
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				spotURL.openStream()));
-
-		String str, newString, information = "";
-
-		// Add <br> so that I have something to go on when I split it up later.
-		while ((str = in.readLine()) != null) {
-			str += "<br>";
-			out.write(str);
+		else if(message.contains("spotify")) {
+			endResult = endResult.trim().replaceAll("on Spotify", "[Spotify]");
 		}
-
-		out.close();
-		in.close();
-
-		// Read the file with all the raw html to one string
-		newString = inFile.readLine();
-		inFile.close();
-
-		// Split the string up into an String array based on where you find the <br> tag
-		String[] y = Pattern.compile("<br>").split(newString);
-
-		done = false;
-		found = false;
-
-		// Search for the most relevant information
-		for (int i = 0; i < y.length; i++) {
-			if (!done) {
-				if (y[i].contains("<title>"))
-					found = true;
-				if (found) {
-					information += y[i];
-					if (y[i].contains("</title>")) {
-						done = true;
-					}
-				}
-			}
-		}
-
-		// Parse it and remove all tags etc.
-		String endResult = information.replaceAll("\\<.*?\\>", "");
-
-		endResult = endResult.trim().replaceAll("   +", " ");
-		endResult = endResult.trim().replaceAll("   ", " ");
-		endResult = endResult.trim().replaceAll("  ", " ");
-		endResult = endResult.trim().replaceAll("on Spotify", "[Spotify]");
-
+		
 		return endResult;
 	}
 }

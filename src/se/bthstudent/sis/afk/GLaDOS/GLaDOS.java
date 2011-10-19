@@ -19,7 +19,9 @@
 
 package se.bthstudent.sis.afk.GLaDOS;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -92,7 +94,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	 * Default constructor for GLaDOS
 	 */
 	public GLaDOS() {
-		this.setName("GLaDOS");
+		this.setName("GLaDOS2");
 
 		this.wernickMod = new WernickeModule();
 		this.gup = new GenericUtilityProcessor();
@@ -332,25 +334,17 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 				this.sendMessage(channel, this.cam.specificResponse(message));
 			}
 		}
-		else if(!this.wernickMod.isCommand(message) && !message.startsWith("http"))
+		if(!this.wernickMod.isCommand(message) && !message.startsWith("http"))
 		{
 			if(!isIgnored(sender))
 				this.cam.addToIntellect(message);
 		}
 		
-		else if(!this.wernickMod.isCommand(message) && message.contains("youtube.com")) {
+		if(!this.wernickMod.isCommand(message) && message.contains("http")) {
 			try {
-				this.sendMessage(channel, this.sm.youtubeName(message));
+				this.sendMessage(channel, this.sm.returnURL(message));
 			} catch (IOException e) {
-				this.sendMessage(channel, "syntax (t)error");
-			}
-		}
-		
-		else if(!this.wernickMod.isCommand(message) && message.contains("open.spotify.com")) {
-			try {
-				this.sendMessage(channel, this.sm.spotifyName(message));
-			} catch (IOException e) {
-				this.sendMessage(channel, "syntax (t)error");
+				this.sendMessage(channel, "could not resolve url");
 			}
 		}
 	}
@@ -408,6 +402,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		Thread t = new Thread(this, "GLaDOSBackupTimer");
 		t.start();
 	}
+	
 
 	/**
 	 * Controls the backup timer.

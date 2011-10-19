@@ -19,7 +19,9 @@
 
 package se.bthstudent.sis.afk.GLaDOS;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 import org.jibble.pircbot.IrcException;
 import org.jibble.pircbot.NickAlreadyInUseException;
@@ -67,4 +69,5 @@ public class Initrd {
 			bot.joinChannel(config.getChannels()[i]);
 		}
 	}
+	
 }

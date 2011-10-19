@@ -82,6 +82,9 @@ public class CentralAIMatrix implements Serializable {
         if(obj == null){
             obj = new JMegaHal();
         }
+        else {
+        	System.out.println("Loaded GLaDOS-AI from Back-up");
+        }
         return obj;
 	}
 	
