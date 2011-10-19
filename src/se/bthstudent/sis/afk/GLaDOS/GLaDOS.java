@@ -92,7 +92,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 	 * Default constructor for GLaDOS
 	 */
 	public GLaDOS() {
-		this.setName("GLaDOS2");
+		this.setName("GLaDOS");
 
 		this.wernickMod = new WernickeModule();
 		this.gup = new GenericUtilityProcessor();
