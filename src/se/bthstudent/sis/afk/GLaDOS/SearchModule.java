@@ -20,20 +20,12 @@
 package se.bthstudent.sis.afk.GLaDOS;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.util.regex.Pattern;
-
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
 
 /**
  * Wikipedia Search module of GLaDOS. Searches Wikipedia with the help of the
@@ -69,25 +61,15 @@ public class SearchModule implements Serializable {
 				"http://en.wikipedia.org:80/w/index.php?title=Special%3ASearch&ns0=1&search="
 						+ searchString
 						+ "&=MediaWiki+search&fulltext=Advanced+search");
-		BufferedWriter out = new BufferedWriter(new FileWriter(
-				"tmp/wikipediaData.txt"));
-		BufferedReader inFile = new BufferedReader(new FileReader(
-				"tmp/wikipediaData.txt"));
+
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				wikiURL.openStream()));
 
 		// Add <br> so that I have something to go on when I split it up later.
 		while ((str = in.readLine()) != null) {
 			str += "<br>";
-			out.write(str);
+			newString += str;
 		}
-
-		out.close();
-		in.close();
-
-		// Read the file with all the raw html to one string
-		newString = inFile.readLine();
-		inFile.close();
 
 		// Split the string up into an String array based on where you find the
 		// <br> tag
@@ -153,25 +135,15 @@ public class SearchModule implements Serializable {
 
 		// get the URL to the Wiki-search and start all the writers and readers
 		tbvURL = new URL("http://tbv.bsnet.se:80/index.php/" + searchString);
-		BufferedWriter out = new BufferedWriter(new FileWriter(
-				"tmp/tbvData.txt"));
-		BufferedReader inFile = new BufferedReader(new FileReader(
-				"tmp/tbvData.txt"));
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				tbvURL.openStream()));
 
 		// Add <br> so that I have something to go on when I split it up later.
 		while ((str = in.readLine()) != null) {
 			str += "<br>";
-			out.write(str);
+			newString += str;
 		}
 
-		out.close();
-		in.close();
-
-		// Read the file with all the raw html to one string
-		newString = inFile.readLine();
-		inFile.close();
 
 		// Split the string up into an String array based on where you find the
 		// <br> tag
@@ -221,7 +193,7 @@ public class SearchModule implements Serializable {
 		// Search for the most relevant information
 		for (int i = 0; i < x.length; i++) {
 			if (!done) {
-				if (x[i].contains("http"))
+				if (x[i].contains("http://") || x[i].contains("https://") )
 					found = true;
 				if (found) {
 					message = x[i];
@@ -231,27 +203,16 @@ public class SearchModule implements Serializable {
 		}
 
 		URL url = new URL(message);
-		BufferedWriter out = new BufferedWriter(new FileWriter(
-				"tmp/urlData.txt"));
-		BufferedReader inFile = new BufferedReader(new FileReader(
-				"tmp/urlData.txt"));
 		BufferedReader in = new BufferedReader(new InputStreamReader(
 				url.openStream()));
 
-		String str, newString, information = "";
+		String str, newString = "" , information = "";
 
 		// Add <br> so that I have something to go on when I split it up later.
 		while ((str = in.readLine()) != null) {
 			str += "<br>";
-			out.write(str);
+			newString += str;
 		}
-
-		out.close();
-		in.close();
-
-		// Read the file with all the raw html to one string
-		newString = inFile.readLine();
-		inFile.close();
 
 		// Split the string up into an String array based on where you find the <br> tag
 		String[] y = Pattern.compile("<br>").split(newString);
@@ -272,9 +233,12 @@ public class SearchModule implements Serializable {
 				}
 			}
 		}
+		String endResult = null;
+		String[] z = Pattern.compile("</title>").split(information);
 
+		endResult = z[0];
 		// Parse it and remove all tags etc.
-		String endResult = information.replaceAll("\\<.*?\\>", "");
+		endResult = endResult.replaceAll("\\<.*?\\>", "");
 
 		endResult = endResult.trim().replaceAll("   +", " ");
 		endResult = endResult.trim().replaceAll("   ", " ");
@@ -285,6 +249,7 @@ public class SearchModule implements Serializable {
 		else if(message.contains("spotify")) {
 			endResult = endResult.trim().replaceAll("on Spotify", "[Spotify]");
 		}
+
 		
 		return endResult;
 	}

@@ -19,9 +19,7 @@
 
 package se.bthstudent.sis.afk.GLaDOS;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -344,7 +342,7 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 			try {
 				this.sendMessage(channel, this.sm.returnURL(message));
 			} catch (IOException e) {
-				this.sendMessage(channel, "could not resolve url");
+				
 			}
 		}
 	}
