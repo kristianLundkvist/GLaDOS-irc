@@ -55,7 +55,9 @@ public class CentralAIMatrix implements Serializable {
 	
 	public void addToIntellect(String message)
 	{
+		message = message.trim().replaceAll("\\<.*?\\>", "");
 		this.hal.add(message);
+		save(this.hal);
 	}
 	
 	public void backUp()

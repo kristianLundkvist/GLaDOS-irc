@@ -323,16 +323,19 @@ public class GLaDOS extends PircBot implements Serializable, Runnable {
 		}
 		else if(!this.wernickMod.isCommand(message) && message.contains("GLaDOS") && !silence)
 		{
-			if(message.length()%2 == 0)
+			int troll = 0;
+			if(troll == 0)
 			{
 				this.sendMessage(channel, this.cam.response());
+				troll = 1;
 			}
 			else
 			{
 				this.sendMessage(channel, this.cam.specificResponse(message));
+				troll = 0;
 			}
 		}
-		if(!this.wernickMod.isCommand(message) && !message.startsWith("http"))
+		if(!this.wernickMod.isCommand(message) && !message.contains("http"))
 		{
 			if(!isIgnored(sender))
 				this.cam.addToIntellect(message);

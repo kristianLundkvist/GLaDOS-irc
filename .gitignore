@@ -10,3 +10,4 @@ pircbot-1.5.0/
 .GLaDOS.conf
 *.txt
 Release.tar.gz
+release/
